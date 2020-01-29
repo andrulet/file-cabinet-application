@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Text;
+using System.Threading;
 
 namespace FileCabinetApp
 {
@@ -18,17 +21,21 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
-            new string[] { "stat", "prints statistics on records", "The 'stat' prints statistics on records." },
+            new string[] { "stat", "prints the count of the records", "The 'stat' prints the count of the records." },
+            new string[] { "create", "creates a new record about person", "The 'create' creates a new record about person." },
         };
 
         public static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
@@ -104,6 +111,41 @@ namespace FileCabinetApp
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create(string parameters)
+        {
+            do
+            {
+                Console.Write("First name: ");
+                string firstName = Console.ReadLine();
+                if (string.IsNullOrEmpty(firstName))
+                {
+                    Console.WriteLine("You entered incorrect first name person. Enter again");
+                    continue;
+                }
+
+                Console.Write("Last name: ");
+                string lastName = Console.ReadLine();
+                if (string.IsNullOrEmpty(lastName))
+                {
+                    Console.WriteLine("You entered incorrect last name person. Enter again");
+                    continue;
+                }
+
+                Console.Write("Date of birth: ");
+                if (DateTime.TryParse(Console.ReadLine(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth) == false)
+                {
+                    Console.WriteLine("You entered incorrect information about person. Enter again");
+                    continue;
+                }
+                else
+                {
+                    int number = Program.fileCabinetService.CreateRecord(firstName, lastName, dayBirth);
+                    Console.WriteLine($"Record #{number} is created");
+                }
+            }
+            while (true);
         }
     }
 }
