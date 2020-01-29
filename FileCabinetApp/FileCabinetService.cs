@@ -54,7 +54,7 @@ namespace FileCabinetApp
             var records = this.list.Where(rec => rec.FirstName.ToUpperInvariant() == firstName);
             if (records == null)
             {
-                throw new ArgumentNullException($"Кecords not found by key {nameof(firstName)}({firstName}).");
+                throw new ArgumentNullException($"Records not found by key {nameof(firstName)}({firstName}).");
             }
 
             return records.ToArray();
@@ -65,7 +65,18 @@ namespace FileCabinetApp
             var records = this.list.Where(rec => rec.LastName.ToUpperInvariant() == lastName);
             if (records == null)
             {
-                throw new ArgumentNullException($"Кecords not found by key {nameof(lastName)}({lastName}).");
+                throw new ArgumentNullException($"Records not found by key {nameof(lastName)}({lastName}).");
+            }
+
+            return records.ToArray();
+        }
+
+        public FileCabinetRecord[] FindByDate(DateTime dayOfBirth)
+        {
+            var records = this.list.Where(rec => rec.DateOfBirth == dayOfBirth);
+            if (records == null)
+            {
+                throw new ArgumentNullException($"Records not found by key {nameof(dayOfBirth)}({dayOfBirth}).");
             }
 
             return records.ToArray();

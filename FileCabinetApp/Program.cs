@@ -189,6 +189,16 @@ namespace FileCabinetApp
                     list = FileCabinetService.FindByLastName(command[1].Trim('"'));
                     ShortShowRecords(list);
                 }
+                else if (string.Equals(command[0], "DATE", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (!DateTime.TryParse(command[1].Trim('"'), out DateTime date))
+                    {
+                        throw new ArgumentException($"Incorrect entered key - {date}.");
+                    }
+
+                    list = FileCabinetService.FindByDate(date);
+                    ShortShowRecords(list);
+                }
                 else
                 {
                     throw new ArgumentException($"Incorrect command - {parameters}.");
