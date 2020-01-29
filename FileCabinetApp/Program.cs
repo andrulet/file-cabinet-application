@@ -22,6 +22,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
+            new Tuple<string, Action<string>>("edit", Edit),
         };
 
         private static readonly string[][] HelpMessages = new string[][]
@@ -31,6 +32,7 @@ namespace FileCabinetApp
             new string[] { "stat", "prints the count of records", "The 'stat' prints the count of records." },
             new string[] { "create", "creates a new record about person", "The 'create' creates a new record about person." },
             new string[] { "list", "shows a list of records", "The 'list' shows a list of records." },
+            new string[] { "edit", "changes found by id list entry", "The 'edit' changes found by id list entry." },
         };
 
         private static bool isRunning = true;
@@ -123,6 +125,34 @@ namespace FileCabinetApp
                 Tuple<string, string, DateTime, char, decimal, short> paramConvert = Convertor();
                 int number = Program.FileCabinetService.CreateRecord(paramConvert.Item1, paramConvert.Item2, paramConvert.Item3, paramConvert.Item4, paramConvert.Item5, paramConvert.Item6);
                 Console.WriteLine($"Record #{number} is created");
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Create(string.Empty);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Create(string.Empty);
+            }
+        }
+
+        private static void Edit(string parameters)
+        {
+            try
+            {
+                if (!int.TryParse(parameters, out int id) || id < 0 || id > int.MaxValue)
+                {
+                    throw new ArgumentException($"Incorrect {nameof(id)}({id}). Id must be more than 0 and less {int.MaxValue}.");
+                }
+
+                if (FileCabinetService.CheckId(id))
+                {
+                    Tuple<string, string, DateTime, char, decimal, short> paramConvert = Convertor();
+                    FileCabinetService.EditRecord(id, paramConvert.Item1, paramConvert.Item2, paramConvert.Item3, paramConvert.Item4, paramConvert.Item5, paramConvert.Item6);
+                    Console.WriteLine($"Record #{id} is created");
+                }
             }
             catch (ArgumentNullException ex)
             {

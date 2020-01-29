@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace FileCabinetApp
 {
@@ -27,6 +27,18 @@ namespace FileCabinetApp
             return record.Id;
         }
 
+        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
+        {
+            CheckFieldsOnException(firstName, lastName, dateOfBirth, gender, salary, points);
+            var record = this.list.ElementAt(id - 1);
+            record.FirstName = firstName;
+            record.LastName = lastName;
+            record.DateOfBirth = dateOfBirth;
+            record.Gender = gender;
+            record.Salary = salary;
+            record.Points = points;
+        }
+
         public FileCabinetRecord[] GetRecords()
         {
             return this.list.ToArray();
@@ -35,6 +47,19 @@ namespace FileCabinetApp
         public int GetStat()
         {
             return this.list.Count;
+        }
+
+        public bool CheckId(int id)
+        {
+            var record = this.list.Find(rec => rec.Id == id);
+            if (record == null)
+            {
+                throw new ArgumentNullException($"Record with {nameof(id)} = {id} not found.");
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private static void CheckStringOnException(string stringCheck)
