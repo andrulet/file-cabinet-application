@@ -49,6 +49,17 @@ namespace FileCabinetApp
             return this.list.Count;
         }
 
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            var records = this.list.Where(rec => rec.FirstName.ToUpperInvariant() == firstName);
+            if (records == null)
+            {
+                throw new ArgumentNullException($"Кecords not found by key {nameof(firstName)}({firstName}).");
+            }
+
+            return records.ToArray();
+        }
+
         public bool CheckId(int id)
         {
             var record = this.list.Find(rec => rec.Id == id);
