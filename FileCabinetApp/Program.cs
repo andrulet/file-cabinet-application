@@ -122,33 +122,53 @@ namespace FileCabinetApp
             do
             {
                 Console.Write("First name: ");
-                string firstName = Console.ReadLine();
+                string firstName = Console.ReadLine().Trim();
                 if (string.IsNullOrEmpty(firstName))
                 {
-                    Console.WriteLine("You entered incorrect first name person. Enter again");
+                    Console.WriteLine($"You entered incorrect {nameof(firstName)}({firstName}) person. Enter again");
                     continue;
                 }
 
                 Console.Write("Last name: ");
-                string lastName = Console.ReadLine();
+                string lastName = Console.ReadLine().Trim();
                 if (string.IsNullOrEmpty(lastName))
                 {
-                    Console.WriteLine("You entered incorrect last name person. Enter again");
+                    Console.WriteLine($"You entered incorrect {nameof(lastName)}({lastName}) person. Enter again");
                     continue;
                 }
 
                 Console.Write("Date of birth: ");
-                if (DateTime.TryParse(Console.ReadLine(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth) == false)
+                if (!DateTime.TryParse(Console.ReadLine().Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth))
                 {
-                    Console.WriteLine("You entered incorrect information about person. Enter again");
+                    Console.WriteLine($"You entered incorrect {nameof(dayBirth)}({dayBirth}) person. Enter again");
                     continue;
                 }
-                else
+
+                Console.Write("Your gender: ");
+                char gender = char.Parse(Console.ReadLine().Trim().ToUpperInvariant());
+                if (gender != 'M' & gender != 'F')
                 {
-                    int number = Program.FileCabinetService.CreateRecord(firstName, lastName, dayBirth);
-                    Console.WriteLine($"Record #{number} is created");
-                    flag = false;
+                    Console.WriteLine($"You entered incorrect {nameof(gender)}({gender}) person. Enter again");
+                    continue;
                 }
+
+                Console.Write("Your salary: ");
+                if (!decimal.TryParse(Console.ReadLine(), out decimal salary))
+                {
+                    Console.WriteLine($"You entered incorrect {nameof(salary)}({salary}) person. Enter again");
+                    continue;
+                }
+
+                Console.Write("Your points: ");
+                if (!short.TryParse(Console.ReadLine(), out short points))
+                {
+                    Console.WriteLine($"You entered incorrect {nameof(points)}({points}) person. Enter again");
+                    continue;
+                }
+
+                int number = Program.FileCabinetService.CreateRecord(firstName, lastName, dayBirth, gender, salary, points);
+                Console.WriteLine($"Record #{number} is created");
+                flag = false;
             }
             while (flag);
         }
@@ -158,7 +178,7 @@ namespace FileCabinetApp
             var list = Program.FileCabinetService.GetRecords();
             foreach (var x in list)
             {
-                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}");
+                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}, {x.Gender}, {x.Salary}, {x.Points}");
             }
         }
     }
