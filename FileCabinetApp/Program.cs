@@ -127,10 +127,12 @@ namespace FileCabinetApp
             catch (ArgumentNullException ex)
             {
                 Console.WriteLine(ex.Message);
+                Create(string.Empty);
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
+                Create(string.Empty);
             }
         }
 
