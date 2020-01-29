@@ -184,6 +184,11 @@ namespace FileCabinetApp
                     list = FileCabinetService.FindByFirstName(command[1].Trim('"'));
                     ShortShowRecords(list);
                 }
+                else if (string.Equals(command[0], "LASTNAME", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    list = FileCabinetService.FindByLastName(command[1].Trim('"'));
+                    ShortShowRecords(list);
+                }
                 else
                 {
                     throw new ArgumentException($"Incorrect command - {parameters}.");
@@ -255,7 +260,7 @@ namespace FileCabinetApp
         {
             foreach (var x in list)
             {
-                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}");
+                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}");
             }
         }
     }
