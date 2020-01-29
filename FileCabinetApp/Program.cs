@@ -118,59 +118,20 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            bool flag = true;
-            do
+            try
             {
-                Console.Write("First name: ");
-                string firstName = Console.ReadLine().Trim();
-                if (string.IsNullOrEmpty(firstName))
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(firstName)}({firstName}) person. Enter again");
-                    continue;
-                }
-
-                Console.Write("Last name: ");
-                string lastName = Console.ReadLine().Trim();
-                if (string.IsNullOrEmpty(lastName))
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(lastName)}({lastName}) person. Enter again");
-                    continue;
-                }
-
-                Console.Write("Date of birth: ");
-                if (!DateTime.TryParse(Console.ReadLine().Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth))
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(dayBirth)}({dayBirth}) person. Enter again");
-                    continue;
-                }
-
-                Console.Write("Your gender: ");
-                char gender = char.Parse(Console.ReadLine().Trim().ToUpperInvariant());
-                if (gender != 'M' & gender != 'F')
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(gender)}({gender}) person. Enter again");
-                    continue;
-                }
-
-                Console.Write("Your salary: ");
-                if (!decimal.TryParse(Console.ReadLine(), out decimal salary))
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(salary)}({salary}) person. Enter again");
-                    continue;
-                }
-
-                Console.Write("Your points: ");
-                if (!short.TryParse(Console.ReadLine(), out short points))
-                {
-                    Console.WriteLine($"You entered incorrect {nameof(points)}({points}) person. Enter again");
-                    continue;
-                }
-
-                int number = Program.FileCabinetService.CreateRecord(firstName, lastName, dayBirth, gender, salary, points);
+                Tuple<string, string, DateTime, char, decimal, short> paramConvert = Convertor();
+                int number = Program.FileCabinetService.CreateRecord(paramConvert.Item1, paramConvert.Item2, paramConvert.Item3, paramConvert.Item4, paramConvert.Item5, paramConvert.Item6);
                 Console.WriteLine($"Record #{number} is created");
-                flag = false;
             }
-            while (flag);
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private static void List(string parameters)
@@ -180,6 +141,49 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}, {x.Gender}, {x.Salary}, {x.Points}");
             }
+        }
+
+        private static Tuple<string, string, DateTime, char, decimal, short> Convertor()
+        {
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine().Trim();
+            if (string.IsNullOrEmpty(firstName))
+            {
+                throw new ArgumentNullException($"You entered incorrect {nameof(firstName)}({firstName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
+            }
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine().Trim();
+            if (string.IsNullOrEmpty(lastName))
+            {
+                throw new ArgumentNullException($"You entered incorrect {nameof(lastName)}({lastName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
+            }
+
+            Console.Write("Date of birth: ");
+            if (!DateTime.TryParse(Console.ReadLine().Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth))
+            {
+                throw new ArgumentException($"You entered incorrect {nameof(dayBirth)}({dayBirth}) person. Enter again");
+            }
+
+            Console.Write("Your gender: ");
+            if (!char.TryParse(Console.ReadLine().Trim().ToUpperInvariant(), out char gender))
+            {
+                throw new ArgumentException($"You entered incorrect {nameof(gender)}({gender}) person. Enter again");
+            }
+
+            Console.Write("Your salary: ");
+            if (!decimal.TryParse(Console.ReadLine().Trim(), out decimal salary))
+            {
+                throw new ArgumentException($"You entered incorrect {nameof(salary)}({salary}) person. Enter again");
+            }
+
+            Console.Write("Your points: ");
+            if (!short.TryParse(Console.ReadLine().Trim(), out short points))
+            {
+                throw new ArgumentException($"You entered incorrect {nameof(points)}({points}) person. Enter again");
+            }
+
+            return new Tuple<string, string, DateTime, char, decimal, short>(firstName, lastName, dayBirth, gender, salary, points);
         }
     }
 }
