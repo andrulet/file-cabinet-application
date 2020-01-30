@@ -272,19 +272,13 @@
         <member name="T:FileCabinetApp.Services.FileCabinetCustomService">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.CheckStringOnException(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.CreateValidator">
             <inheritdoc/>
         </member>
         <member name="T:FileCabinetApp.Services.FileCabinetDefaultService">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.CheckStringOnException(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.CreateValidator">
             <inheritdoc/>
         </member>
         <member name="T:FileCabinetApp.FileCabinetService">
@@ -346,17 +340,50 @@
             <param name="id">Id to check.</param>
             <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CheckStringOnException(System.String)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
             <summary>
-            Checks string parametr on excrption.
+            Creates Validator instance.
             </summary>
-            <param name="stringCheck">String for checking.</param>
+            <returns>Reference on IRecordValidator.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            This class contains of the methods for defualt validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            This class contains of the methods for defualt validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.IRecordValidator">
+            <summary>
+            This interface contains of the methods for validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
             <summary>
             Validates entered parameters.
             </summary>
             <param name="parameters">Parameters for validating.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.CheckStringOnException(System.String)">
+            <summary>
+            Checks string parametr on excrption.
+            </summary>
+            <param name="stringCheck">String for checking.</param>
         </member>
     </members>
 </doc>

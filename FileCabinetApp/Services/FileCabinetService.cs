@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -27,7 +28,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            this.ValidateParameters(parameters);
+            this.CreateValidator().ValidateParameters(parameters);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -57,7 +58,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            this.ValidateParameters(parameters);
+            this.CreateValidator().ValidateParameters(parameters);
             var record = this.list.ElementAt(parameters.Id - 1);
             var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = parameters.FirstName;
@@ -138,15 +139,9 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Checks string parametr on excrption.
+        /// Creates Validator instance.
         /// </summary>
-        /// <param name="stringCheck">String for checking.</param>
-        protected abstract void CheckStringOnException(string stringCheck);
-
-        /// <summary>
-        /// Validates entered parameters.
-        /// </summary>
-        /// <param name="parameters">Parameters for validating.</param>
-        protected abstract void ValidateParameters(ParametersForRecord parameters);
+        /// <returns>Reference on IRecordValidator.</returns>
+        protected abstract IRecordValidator CreateValidator();
     }
 }
