@@ -10,6 +10,7 @@ namespace FileCabinetApp
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
         private readonly DictionaryService<string> dictionaryByLastNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
+        private readonly DictionaryService<DateTime> dictionaryByDateOfBirthKey = new DictionaryService<DateTime>(new Dictionary<DateTime, List<FileCabinetRecord>>());
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
         {
@@ -28,6 +29,7 @@ namespace FileCabinetApp
             this.list.Add(record);
             this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
             this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
+            this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
             return record.Id;
         }
 
@@ -44,6 +46,7 @@ namespace FileCabinetApp
             record.Points = points;
             this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
             this.dictionaryByLastNameKey.EditRecord(record, record.LastName, newRecord.LastName);
+            this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
         }
 
         public FileCabinetRecord[] GetRecords()
@@ -68,13 +71,7 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByDate(DateTime dayOfBirth)
         {
-            var records = this.list.Where(rec => rec.DateOfBirth == dayOfBirth);
-            if (records == null)
-            {
-                throw new ArgumentNullException($"Records not found by key {nameof(dayOfBirth)}({dayOfBirth}).");
-            }
-
-            return records.ToArray();
+            return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
         }
 
         public bool CheckId(int id)
