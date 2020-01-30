@@ -18,25 +18,25 @@ namespace FileCabinetApp
         /// <summary>
         ///  Creates a new <see cref="FileCabinetRecord"/> class record and saves it in the <see cref="Dictionary{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="firstName">The first name property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="lastName">The last name property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="dateOfBirth">The date of birth property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="gender">The gender property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="salary">The salary property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="points">The points property for creating of <see cref="FileCabinetRecord"/> class.</param>
+        /// <param name="parameters">Parameters for creating the instance of <see cref="FileCabinetRecord"/> class.</param>
         /// <returns>The Id of record.</returns>
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
+        public int CreateRecord(ParametersForRecord parameters)
         {
-            CheckFieldsOnException(firstName, lastName, dateOfBirth, gender, salary, points);
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            CheckFieldsOnException(parameters);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Gender = gender,
-                Salary = salary,
-                Points = points,
+                FirstName = parameters.FirstName,
+                LastName = parameters.LastName,
+                DateOfBirth = parameters.DateOfBirth,
+                Gender = parameters.Gender,
+                Salary = parameters.Salary,
+                Points = parameters.Points,
             };
 
             this.list.Add(record);
@@ -49,24 +49,23 @@ namespace FileCabinetApp
         /// <summary>
         /// Change information about <see cref="FileCabinetRecord"/> class record and saves it in the <see cref="Dictionary{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="id">The id property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="firstName">The first name property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="lastName">The last name property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="dateOfBirth">The date of birth property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="gender">The gender property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="salary">The salary property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        /// <param name="points">The points property for creating of <see cref="FileCabinetRecord"/> class.</param>
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
+        /// <param name="parameters">Parameters for creating the instance of <see cref="FileCabinetRecord"/> class.</param>
+        public void EditRecord(ParametersForRecord parameters)
         {
-            CheckFieldsOnException(firstName, lastName, dateOfBirth, gender, salary, points);
-            var record = this.list.ElementAt(id - 1);
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            CheckFieldsOnException(parameters);
+            var record = this.list.ElementAt(parameters.Id - 1);
             var newRecord = (FileCabinetRecord)record.Clone();
-            record.FirstName = firstName;
-            record.LastName = lastName;
-            record.DateOfBirth = dateOfBirth;
-            record.Gender = gender;
-            record.Salary = salary;
-            record.Points = points;
+            record.FirstName = parameters.FirstName;
+            record.LastName = parameters.LastName;
+            record.DateOfBirth = parameters.DateOfBirth;
+            record.Gender = parameters.Gender;
+            record.Salary = parameters.Salary;
+            record.Points = parameters.Points;
             this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
             this.dictionaryByLastNameKey.EditRecord(record, record.LastName, newRecord.LastName);
             this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
@@ -151,10 +150,14 @@ namespace FileCabinetApp
             }
         }
 
-        private static void CheckFieldsOnException(string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
+        private static void CheckFieldsOnException(ParametersForRecord parameters)
         {
-            CheckStringOnException(firstName);
-            CheckStringOnException(lastName);
+            var dateOfBirth = parameters.DateOfBirth;
+            var gender = parameters.Gender;
+            var points = parameters.Points;
+            var salary = parameters.Salary;
+            CheckStringOnException(parameters.FirstName);
+            CheckStringOnException(parameters.LastName);
             if (dateOfBirth < new DateTime(1950, 1, 1) || dateOfBirth > DateTime.Now)
             {
                 throw new ArgumentException($"Invalid input {nameof(dateOfBirth)}({dateOfBirth})");

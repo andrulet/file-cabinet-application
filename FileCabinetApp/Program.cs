@@ -129,8 +129,8 @@ namespace FileCabinetApp
         {
             try
             {
-                Tuple<string, string, DateTime, char, decimal, short> paramConvert = Convertor();
-                int number = Program.FileCabinetService.CreateRecord(paramConvert.Item1, paramConvert.Item2, paramConvert.Item3, paramConvert.Item4, paramConvert.Item5, paramConvert.Item6);
+                ParametersForRecord converParameters = Convertor();
+                int number = Program.FileCabinetService.CreateRecord(converParameters);
                 Console.WriteLine($"Record #{number} is created");
             }
             catch (ArgumentNullException ex)
@@ -149,27 +149,32 @@ namespace FileCabinetApp
         {
             try
             {
-                if (!int.TryParse(parameters, out int id) || id < 0 || id > int.MaxValue)
+                if (!int.TryParse(parameters, out int id) || id < 1 || id > int.MaxValue)
                 {
                     throw new ArgumentException($"Incorrect {nameof(id)}({id}). Id must be more than 0 and less {int.MaxValue}.");
                 }
 
                 if (FileCabinetService.CheckId(id))
                 {
-                    Tuple<string, string, DateTime, char, decimal, short> paramConvert = Convertor();
-                    FileCabinetService.EditRecord(id, paramConvert.Item1, paramConvert.Item2, paramConvert.Item3, paramConvert.Item4, paramConvert.Item5, paramConvert.Item6);
+                    ParametersForRecord converParameters = Convertor();
+                    FileCabinetService.EditRecord(new ParametersForRecord(
+                        converParameters.FirstName,
+                        converParameters.LastName,
+                        converParameters.DateOfBirth,
+                        converParameters.Gender,
+                        converParameters.Salary,
+                        converParameters.Points,
+                        id));
                     Console.WriteLine($"Record #{id} is created");
                 }
             }
             catch (ArgumentNullException ex)
             {
                 Console.WriteLine(ex.Message);
-                Create(string.Empty);
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
-                Create(string.Empty);
             }
         }
 
@@ -232,7 +237,7 @@ namespace FileCabinetApp
             }
         }
 
-        private static Tuple<string, string, DateTime, char, decimal, short> Convertor()
+        private static ParametersForRecord Convertor()
         {
             Console.Write(Resources.Resources.FirstName);
             string firstName = Console.ReadLine().Trim();
@@ -272,7 +277,7 @@ namespace FileCabinetApp
                 throw new ArgumentException($"You entered incorrect {nameof(points)}({points}) person. Enter again");
             }
 
-            return new Tuple<string, string, DateTime, char, decimal, short>(firstName, lastName, dayBirth, gender, salary, points);
+            return new ParametersForRecord(firstName, lastName, dayBirth, gender, salary, points);
         }
 
         private static void ShortShowRecords(FileCabinetRecord[] list)

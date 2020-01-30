@@ -60,6 +60,79 @@
         <member name="M:FileCabinetApp.FileCabinetRecord.Clone">
             <inheritdoc/>
         </member>
+        <member name="T:FileCabinetApp.ParametersForRecord">
+            <summary>
+            Consists of properties for creating and changing the instances of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.ParametersForRecord.#ctor(System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.ParametersForRecord"/> class.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="dateOfBirth">The date of birth.</param>
+            <param name="gender">The gender.</param>
+            <param name="salary">The salary.</param>
+            <param name="points">The point.</param>
+            <param name="id">The Id.</param>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Id">
+            <summary>
+            Gets the Id.
+            </summary>
+            <value>
+            The Id.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.FirstName">
+            <summary>
+            Gets the first name.
+            </summary>
+            <value>
+            The first name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.LastName">
+            <summary>
+            Gets the last name.
+            </summary>
+            <value>
+            The last name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.DateOfBirth">
+            <summary>
+            Gets the date of birth.
+            </summary>
+            <value>
+            The date of birth.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Gender">
+            <summary>
+            Gets the gender.
+            </summary>
+            <value>
+            The gender.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Salary">
+            <summary>
+            Gets the salary.
+            </summary>
+            <value>
+            The salary.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Points">
+            <summary>
+            Gets the points.
+            </summary>
+            <value>
+            The points.
+            </value>
+        </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
             Includes logic of integration with user.
@@ -186,29 +259,18 @@
             and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
             <summary>
              Creates a new <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
             </summary>
-            <param name="firstName">The first name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="lastName">The last name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="dateOfBirth">The date of birth property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="gender">The gender property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="salary">The salary property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="points">The points property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
             <returns>The Id of record.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16)">
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
             <summary>
             Change information about <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
             </summary>
-            <param name="id">The id property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="firstName">The first name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="lastName">The last name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="dateOfBirth">The date of birth property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="gender">The gender property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="salary">The salary property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <param name="points">The points property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
             <summary>
