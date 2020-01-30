@@ -15,6 +15,16 @@ namespace FileCabinetApp
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
         private readonly DictionaryService<string> dictionaryByLastNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
         private readonly DictionaryService<DateTime> dictionaryByDateOfBirthKey = new DictionaryService<DateTime>(new Dictionary<DateTime, List<FileCabinetRecord>>());
+        private readonly IRecordValidator validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">Reference on IRRecordValidator.</param>
+        protected FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
 
         /// <summary>
         ///  Creates a new <see cref="FileCabinetRecord"/> class record and saves it in the <see cref="Dictionary{TKey, TValue}"/>.
@@ -28,7 +38,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            this.CreateValidator().ValidateParameters(parameters);
+            this.validator.ValidateParameters(parameters);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -58,7 +68,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            this.CreateValidator().ValidateParameters(parameters);
+            this.validator.ValidateParameters(parameters);
             var record = this.list.ElementAt(parameters.Id - 1);
             var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = parameters.FirstName;
@@ -137,11 +147,5 @@ namespace FileCabinetApp
                 return true;
             }
         }
-
-        /// <summary>
-        /// Creates Validator instance.
-        /// </summary>
-        /// <returns>Reference on IRecordValidator.</returns>
-        protected abstract IRecordValidator CreateValidator();
     }
 }

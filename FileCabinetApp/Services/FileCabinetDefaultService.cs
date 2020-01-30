@@ -6,10 +6,12 @@ namespace FileCabinetApp.Services
     /// <inheritdoc/>
     public class FileCabinetDefaultService : FileCabinetService
     {
-        /// <inheritdoc/>
-        protected override IRecordValidator CreateValidator()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetDefaultService"/> class.
+        /// </summary>
+        public FileCabinetDefaultService()
+            : base(new DefaultValidator())
         {
-            return new DefaultValidator();
         }
     }
 }

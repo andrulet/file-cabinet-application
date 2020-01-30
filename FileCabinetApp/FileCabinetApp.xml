@@ -272,20 +272,30 @@
         <member name="T:FileCabinetApp.Services.FileCabinetCustomService">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.CreateValidator">
-            <inheritdoc/>
+        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetCustomService"/> class.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.Services.FileCabinetDefaultService">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.CreateValidator">
-            <inheritdoc/>
+        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetDefaultService"/> class.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
             and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
             </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">Reference on IRRecordValidator.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
             <summary>
@@ -339,12 +349,6 @@
             </summary>
             <param name="id">Id to check.</param>
             <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
-            <summary>
-            Creates Validator instance.
-            </summary>
-            <returns>Reference on IRecordValidator.</returns>
         </member>
         <member name="T:FileCabinetApp.Validators.CustomValidator">
             <summary>
