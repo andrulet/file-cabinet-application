@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading;
-using FileCabinetApp.Services;
+using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
 {
@@ -306,7 +306,7 @@ namespace FileCabinetApp
         {
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetDefaultService();
+                fileCabinetService = new FileCabinetService(new DefaultValidator());
                 Console.WriteLine(Resources.Resources.defaultValidation);
                 return;
             }
@@ -330,26 +330,26 @@ namespace FileCabinetApp
                 {
                     if (commands[1].Equals("CUSTOM", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        fileCabinetService = new FileCabinetCustomService();
+                        fileCabinetService = new FileCabinetService(new CustomValidator());
                         Console.WriteLine(Resources.Resources.castomValidation);
                         return;
                     }
                     else if (commands[1].Equals("DEFAULT", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        fileCabinetService = new FileCabinetDefaultService();
+                        fileCabinetService = new FileCabinetService(new DefaultValidator());
                         Console.WriteLine(Resources.Resources.defaultValidation);
                         return;
                     }
                     else
                     {
-                        fileCabinetService = new FileCabinetDefaultService();
+                        fileCabinetService = new FileCabinetService(new DefaultValidator());
                         Console.WriteLine(Resources.Resources.unknownValidation);
                         return;
                     }
                 }
             }
 
-            fileCabinetService = new FileCabinetDefaultService();
+            fileCabinetService = new FileCabinetService(new DefaultValidator());
             Console.WriteLine(Resources.Resources.unknownValidation);
         }
     }

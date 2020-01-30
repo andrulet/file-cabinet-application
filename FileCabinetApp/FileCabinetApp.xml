@@ -269,22 +269,6 @@
             <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
             <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
         </member>
-        <member name="T:FileCabinetApp.Services.FileCabinetCustomService">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetCustomService"/> class.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.Services.FileCabinetDefaultService">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetDefaultService"/> class.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>

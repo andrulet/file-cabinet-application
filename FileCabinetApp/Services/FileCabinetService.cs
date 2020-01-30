@@ -9,7 +9,7 @@ namespace FileCabinetApp
     /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
     /// and <see cref="Dictionary{TKey, Tvalue}"/>, where Tvalue is <see cref="FileCabinetRecord"/> instance.
     /// </summary>
-    public abstract class FileCabinetService
+    public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
@@ -21,7 +21,7 @@ namespace FileCabinetApp
         /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
         /// </summary>
         /// <param name="validator">Reference on IRRecordValidator.</param>
-        protected FileCabinetService(IRecordValidator validator)
+        public FileCabinetService(IRecordValidator validator)
         {
             this.validator = validator;
         }
