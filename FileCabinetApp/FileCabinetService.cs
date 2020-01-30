@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FileCabinetApp;
 
 namespace FileCabinetApp
 {
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
+        private readonly DictionaryService<string> dictionaryByLastNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
+        private readonly DictionaryService<DateTime> dictionaryByDateOfBirthKey = new DictionaryService<DateTime>(new Dictionary<DateTime, List<FileCabinetRecord>>());
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
         {
@@ -23,7 +27,9 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
-
+            this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
+            this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
+            this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
             return record.Id;
         }
 
@@ -31,12 +37,16 @@ namespace FileCabinetApp
         {
             CheckFieldsOnException(firstName, lastName, dateOfBirth, gender, salary, points);
             var record = this.list.ElementAt(id - 1);
+            var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = firstName;
             record.LastName = lastName;
             record.DateOfBirth = dateOfBirth;
             record.Gender = gender;
             record.Salary = salary;
             record.Points = points;
+            this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
+            this.dictionaryByLastNameKey.EditRecord(record, record.LastName, newRecord.LastName);
+            this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
         }
 
         public FileCabinetRecord[] GetRecords()
@@ -47,6 +57,21 @@ namespace FileCabinetApp
         public int GetStat()
         {
             return this.list.Count;
+        }
+
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            return this.dictionaryByFirstNameKey.FindByParam(firstName);
+        }
+
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            return this.dictionaryByLastNameKey.FindByParam(lastName);
+        }
+
+        public FileCabinetRecord[] FindByDate(DateTime dayOfBirth)
+        {
+            return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
         }
 
         public bool CheckId(int id)

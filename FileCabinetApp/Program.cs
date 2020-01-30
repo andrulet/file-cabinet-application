@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -23,6 +24,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find),
         };
 
         private static readonly string[][] HelpMessages = new string[][]
@@ -33,6 +35,7 @@ namespace FileCabinetApp
             new string[] { "create", "creates a new record about person", "The 'create' creates a new record about person." },
             new string[] { "list", "shows a list of records", "The 'list' shows a list of records." },
             new string[] { "edit", "changes found by id list entry", "The 'edit' changes found by id list entry." },
+            new string[] { "find", "finds sheet entries by the specified field (firstname, lastname, dateofbirth)", "The 'find' finds sheet entries by the specified field (firstname, lastname, dateofbirth)" },
         };
 
         private static bool isRunning = true;
@@ -166,6 +169,56 @@ namespace FileCabinetApp
             }
         }
 
+        private static void Find(string parameters)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(parameters))
+                {
+                    throw new ArgumentNullException($"The {nameof(parameters)} can't be null or empty.");
+                }
+
+                FileCabinetRecord[] list;
+                var command = parameters.Trim().ToUpperInvariant().Split(' ');
+                if (string.Equals(command[0], "FIRSTNAME", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    list = FileCabinetService.FindByFirstName(command[1].Trim('"'));
+                    ShortShowRecords(list);
+                }
+                else if (string.Equals(command[0], "LASTNAME", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    list = FileCabinetService.FindByLastName(command[1].Trim('"'));
+                    ShortShowRecords(list);
+                }
+                else if (string.Equals(command[0], "DATE", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (!DateTime.TryParse(command[1].Trim('"'), out DateTime date))
+                    {
+                        throw new ArgumentException($"Incorrect entered key - {date}.");
+                    }
+
+                    list = FileCabinetService.FindByDate(date);
+                    ShortShowRecords(list);
+                }
+                else
+                {
+                    throw new ArgumentException($"Incorrect command - {parameters}.");
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         private static void List(string parameters)
         {
             var list = Program.FileCabinetService.GetRecords();
@@ -216,6 +269,14 @@ namespace FileCabinetApp
             }
 
             return new Tuple<string, string, DateTime, char, decimal, short>(firstName, lastName, dayBirth, gender, salary, points);
+        }
+
+        private static void ShortShowRecords(FileCabinetRecord[] list)
+        {
+            foreach (var x in list)
+            {
+                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}");
+            }
         }
     }
 }
