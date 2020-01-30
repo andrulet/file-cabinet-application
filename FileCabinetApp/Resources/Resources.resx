@@ -120,8 +120,14 @@
   <data name="AvailableCommands" xml:space="preserve">
     <value>Available commands:</value>
   </data>
+  <data name="castomValidation" xml:space="preserve">
+    <value>Using custom validation rules.</value>
+  </data>
   <data name="DateOfBirth" xml:space="preserve">
     <value>Date of birth: </value>
+  </data>
+  <data name="defaultValidation" xml:space="preserve">
+    <value>Using default validation rules.</value>
   </data>
   <data name="DevelopedBy" xml:space="preserve">
     <value>File Cabinet Application, developed by</value>
@@ -152,5 +158,8 @@
   </data>
   <data name="Salary" xml:space="preserve">
     <value>Salary: </value>
+  </data>
+  <data name="unknownValidation" xml:space="preserve">
+    <value>Unknown start command.Using default validation rules.</value>
   </data>
 </root>

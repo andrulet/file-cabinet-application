@@ -70,11 +70,29 @@ namespace FileCabinetApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Using custom validation rules..
+        /// </summary>
+        public static string castomValidation {
+            get {
+                return ResourceManager.GetString("castomValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Date of birth: .
         /// </summary>
         public static string DateOfBirth {
             get {
                 return ResourceManager.GetString("DateOfBirth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Using default validation rules..
+        /// </summary>
+        public static string defaultValidation {
+            get {
+                return ResourceManager.GetString("defaultValidation", resourceCulture);
             }
         }
         
@@ -165,6 +183,15 @@ namespace FileCabinetApp.Resources {
         public static string Salary {
             get {
                 return ResourceManager.GetString("Salary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Unknown start command.Using default validation rules..
+        /// </summary>
+        public static string unknownValidation {
+            get {
+                return ResourceManager.GetString("unknownValidation", resourceCulture);
             }
         }
     }

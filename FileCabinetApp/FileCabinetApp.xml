@@ -138,10 +138,11 @@
             Includes logic of integration with user.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Program.Main">
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
             <summary>
             Start point of the application.
             </summary>
+            <param name="args">Array of a console string.</param>
         </member>
         <member name="T:FileCabinetApp.Resources.Resources">
             <summary>
@@ -164,9 +165,19 @@
               Ищет локализованную строку, похожую на Available commands:.
             </summary>
         </member>
+        <member name="P:FileCabinetApp.Resources.Resources.castomValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Using custom validation rules..
+            </summary>
+        </member>
         <member name="P:FileCabinetApp.Resources.Resources.DateOfBirth">
             <summary>
               Ищет локализованную строку, похожую на Date of birth: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.defaultValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Using default validation rules..
             </summary>
         </member>
         <member name="P:FileCabinetApp.Resources.Resources.DevelopedBy">
@@ -217,6 +228,11 @@
         <member name="P:FileCabinetApp.Resources.Resources.Salary">
             <summary>
               Ищет локализованную строку, похожую на Salary: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.unknownValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Unknown start command.Using default validation rules..
             </summary>
         </member>
         <member name="T:FileCabinetApp.DictionaryService`1">

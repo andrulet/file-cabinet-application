@@ -16,8 +16,6 @@ namespace FileCabinetApp
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
 
-        private static readonly FileCabinetService FileCabinetService = new FileCabinetCustomService();
-
         private static readonly Tuple<string, Action<string>>[] Commands = new Tuple<string, Action<string>>[]
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
@@ -41,44 +39,59 @@ namespace FileCabinetApp
         };
 
         private static bool isRunning = true;
+        private static FileCabinetService fileCabinetService;
 
         /// <summary>
         /// Start point of the application.
         /// </summary>
-        public static void Main()
+        /// <param name="args">Array of a console string.</param>
+        public static void Main(string[] args)
         {
-            Console.OutputEncoding = Encoding.UTF8;
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            Console.WriteLine($"{Resources.Resources.DevelopedBy}{Resources.Resources.DeveloperName}");
-            Console.WriteLine(Resources.Resources.HintMessage);
-            Console.WriteLine();
-
-            do
+            try
             {
-                Console.Write(Resources.Resources.GreaterThan);
-                var inputs = Console.ReadLine().Split(' ', 2);
-                const int commandIndex = 0;
-                var command = inputs[commandIndex];
-
-                if (string.IsNullOrEmpty(command))
+                if (args == null)
                 {
-                    Console.WriteLine(Resources.Resources.HintMessage);
-                    continue;
+                    throw new ArgumentNullException(nameof(args));
                 }
 
-                var index = Array.FindIndex(Commands, 0, Commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
-                if (index >= 0)
+                ValidArgs(args);
+                Console.OutputEncoding = Encoding.UTF8;
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+                Console.WriteLine($"{Resources.Resources.DevelopedBy}{Resources.Resources.DeveloperName}");
+                Console.WriteLine(Resources.Resources.HintMessage);
+                Console.WriteLine();
+
+                do
                 {
-                    const int parametersIndex = 1;
-                    var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-                    Commands[index].Item2(parameters);
+                    Console.Write(Resources.Resources.GreaterThan);
+                    var inputs = Console.ReadLine().Split(' ', 2);
+                    const int commandIndex = 0;
+                    var command = inputs[commandIndex];
+
+                    if (string.IsNullOrEmpty(command))
+                    {
+                        Console.WriteLine(Resources.Resources.HintMessage);
+                        continue;
+                    }
+
+                    var index = Array.FindIndex(Commands, 0, Commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
+                    if (index >= 0)
+                    {
+                        const int parametersIndex = 1;
+                        var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
+                        Commands[index].Item2(parameters);
+                    }
+                    else
+                    {
+                        PrintMissedCommandInfo(command);
+                    }
                 }
-                else
-                {
-                    PrintMissedCommandInfo(command);
-                }
+                while (isRunning);
             }
-            while (isRunning);
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private static void PrintMissedCommandInfo(string command)
@@ -122,7 +135,7 @@ namespace FileCabinetApp
 
         private static void Stat(string parameters)
         {
-            var recordsCount = Program.FileCabinetService.GetStat();
+            var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
         }
 
@@ -131,7 +144,7 @@ namespace FileCabinetApp
             try
             {
                 ParametersForRecord converParameters = Convertor();
-                int number = Program.FileCabinetService.CreateRecord(converParameters);
+                int number = Program.fileCabinetService.CreateRecord(converParameters);
                 Console.WriteLine($"Record #{number} is created");
             }
             catch (ArgumentNullException ex)
@@ -155,10 +168,10 @@ namespace FileCabinetApp
                     throw new ArgumentException($"Incorrect {nameof(id)}({id}). Id must be more than 0 and less {int.MaxValue}.");
                 }
 
-                if (FileCabinetService.CheckId(id))
+                if (fileCabinetService.CheckId(id))
                 {
                     ParametersForRecord converParameters = Convertor();
-                    FileCabinetService.EditRecord(new ParametersForRecord(
+                    fileCabinetService.EditRecord(new ParametersForRecord(
                         converParameters.FirstName,
                         converParameters.LastName,
                         converParameters.DateOfBirth,
@@ -192,12 +205,12 @@ namespace FileCabinetApp
                 var command = parameters.Trim().ToUpperInvariant().Split(' ');
                 if (string.Equals(command[0], "FIRSTNAME", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    list = FileCabinetService.FindByFirstName(command[1].Trim('"'));
+                    list = fileCabinetService.FindByFirstName(command[1].Trim('"'));
                     ShortShowRecords(list);
                 }
                 else if (string.Equals(command[0], "LASTNAME", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    list = FileCabinetService.FindByLastName(command[1].Trim('"'));
+                    list = fileCabinetService.FindByLastName(command[1].Trim('"'));
                     ShortShowRecords(list);
                 }
                 else if (string.Equals(command[0], "DATE", StringComparison.InvariantCultureIgnoreCase))
@@ -207,7 +220,7 @@ namespace FileCabinetApp
                         throw new ArgumentException($"Incorrect entered key - {date}.");
                     }
 
-                    list = FileCabinetService.FindByDate(date);
+                    list = fileCabinetService.FindByDate(date);
                     ShortShowRecords(list);
                 }
                 else
@@ -231,7 +244,7 @@ namespace FileCabinetApp
 
         private static void List(string parameters)
         {
-            var list = Program.FileCabinetService.GetRecords();
+            var list = Program.fileCabinetService.GetRecords();
             foreach (var x in list)
             {
                 Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}, {x.Gender}, {x.Salary}, {x.Points}");
@@ -287,6 +300,57 @@ namespace FileCabinetApp
             {
                 Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}");
             }
+        }
+
+        private static void ValidArgs(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                fileCabinetService = new FileCabinetDefaultService();
+                Console.WriteLine(Resources.Resources.defaultValidation);
+                return;
+            }
+
+            string[] commands = new string[args.Length + 1];
+            if (args[0].StartsWith("--", StringComparison.InvariantCultureIgnoreCase) && args.Length == 1)
+            {
+                commands = args[0].Substring(2).ToUpperInvariant().Split('=', 2);
+            }
+            else if (args[0].StartsWith("-", StringComparison.InvariantCultureIgnoreCase) && args.Length == 2)
+            {
+                commands = new string[args.Length];
+                commands[0] = args[0].Substring(1).ToUpperInvariant();
+                commands[1] = args[1].ToUpperInvariant();
+            }
+
+            if (commands[^1] != null)
+            {
+                if (commands[0].Equals("VALIDATION-RULES", StringComparison.InvariantCultureIgnoreCase) ||
+                commands[0].Equals("V", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    if (commands[1].Equals("CUSTOM", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        fileCabinetService = new FileCabinetCustomService();
+                        Console.WriteLine(Resources.Resources.castomValidation);
+                        return;
+                    }
+                    else if (commands[1].Equals("DEFAULT", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        fileCabinetService = new FileCabinetDefaultService();
+                        Console.WriteLine(Resources.Resources.defaultValidation);
+                        return;
+                    }
+                    else
+                    {
+                        fileCabinetService = new FileCabinetDefaultService();
+                        Console.WriteLine(Resources.Resources.unknownValidation);
+                        return;
+                    }
+                }
+            }
+
+            fileCabinetService = new FileCabinetDefaultService();
+            Console.WriteLine(Resources.Resources.unknownValidation);
         }
     }
 }
