@@ -4,5 +4,537 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.Converter">
+            <summary>
+            Thic class consists of methods for convert entered parameters.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Converter.StringConvertor(System.String)">
+            <summary>
+            Converts input <paramref name="data"/> in to <see cref="T:System.String"/>.
+            </summary>
+            <param name="data">Input the first name or last name of person.</param>
+            <returns>The <see cref="T:System.Tuple`3"/>.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Converter.DateConvertor(System.String)">
+            <summary>
+            Converts input <paramref name="data"/> in to <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="data">Input the date of birth of person.</param>
+            <returns>The <see cref="T:System.Tuple`3"/>.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Converter.CharConvertor(System.String)">
+            <summary>
+            Converts input <paramref name="data"/> in to <see cref="T:System.DateTime"/>.
+            </summary>
+            <param name="data">Input the gender of person.</param>
+            <returns>The <see cref="T:System.Tuple`3"/>.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Converter.DecimalConvertor(System.String)">
+            <summary>
+            Converts input <paramref name="data"/> in to <see cref="T:System.Decimal"/>.
+            </summary>
+            <param name="data">Input the salary of person.</param>
+            <returns>The <see cref="T:System.Tuple`3"/>.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Converter.ShortConvertor(System.String)">
+            <summary>
+            Converts input <paramref name="data"/> in to <see cref="T:System.Int16"/>.
+            </summary>
+            <param name="data">Input the points of person.</param>
+            <returns>The <see cref="T:System.Tuple`3"/>.</returns>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            This class contains data about the recording and operations with them, describing some information about person.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets id of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Integer Id.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets first name of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>String first name.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets last name of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>String last name.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets date of birth of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>DataTime date of birth.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Gender">
+            <summary>
+            Gets or sets gender of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Char gender.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Salary">
+            <summary>
+            Gets or sets salary of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Decimal salary.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Points">
+            <summary>
+            Gets or sets points of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Short points.</value>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.Copy(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            This method copies the fields from the <see cref="T:FileCabinetApp.FileCabinetRecord"/> <paramref name="other"/> to the carrent instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <param name="other">It's instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class from which the fields are copied.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.Clone">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
+            <summary>
+            Describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
+            and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+            <summary>
+             Creates a new <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <returns>The Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
+            <summary>
+            Change information about <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
+            <summary>
+            Gets array of records.
+            </summary>
+            <returns>List of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetStat">
+            <summary>
+            Gets number of records in the list of records.
+            </summary>
+            <returns>Count of record in the list.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the first name of records.
+            </summary>
+            <param name="firstName">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the last name of records.
+            </summary>
+            <param name="lastName">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByDate(System.DateTime)">
+            <summary>
+            Finds the records in the dictionary by the date of the birth of records.
+            </summary>
+            <param name="dayOfBirth">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CheckId(System.Int32)">
+            <summary>
+            Checks id on list.
+            </summary>
+            <param name="id">Id to check.</param>
+            <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetTypeValidator">
+            <summary>
+            Gets type of validator.
+            </summary>
+            <returns>Type of validator.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Validators.IRecordValidator">
+            <summary>
+            This interface contains methods for validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <summary>
+            Validates all parameteres for creating or editing the record.
+            </summary>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+        </member>
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            This class contains custom data validation methods.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.FirstNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the first name parameter of record.
+            </summary>
+            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.LastNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the last name parameter of record.
+            </summary>
+            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.DateTimeValidator(System.DateTime)">
+            <summary>
+            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
+            </summary>
+            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.CharValidator(System.Char)">
+            <summary>
+            Validates <see cref="T:System.Char"/> the gender parameter of record.
+            </summary>
+            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.DecimalValidator(System.Decimal)">
+            <summary>
+            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
+            </summary>
+            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ShortValidator(System.Int16)">
+            <summary>
+            Validates <see cref="T:System.Int16"/> the points parameter of record.
+            </summary>
+            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            This class contains default data validation methods.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.FirstNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the first name parameter of record.
+            </summary>
+            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.LastNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the last name parameter of record.
+            </summary>
+            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.DateTimeValidator(System.DateTime)">
+            <summary>
+            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
+            </summary>
+            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.CharValidator(System.Char)">
+            <summary>
+            Validates <see cref="T:System.Char"/> the gender parameter of record.
+            </summary>
+            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.DecimalValidator(System.Decimal)">
+            <summary>
+            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
+            </summary>
+            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ShortValidator(System.Int16)">
+            <summary>
+            Validates <see cref="T:System.Int16"/> the points parameter of record.
+            </summary>
+            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.ParametersForRecord">
+            <summary>
+            Consists of properties for creating and changing the instances of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.ParametersForRecord.#ctor(System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.ParametersForRecord"/> class.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="dateOfBirth">The date of birth.</param>
+            <param name="gender">The gender.</param>
+            <param name="salary">The salary.</param>
+            <param name="points">The point.</param>
+            <param name="id">The Id.</param>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Id">
+            <summary>
+            Gets the Id.
+            </summary>
+            <value>
+            The Id.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.FirstName">
+            <summary>
+            Gets the first name.
+            </summary>
+            <value>
+            The first name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.LastName">
+            <summary>
+            Gets the last name.
+            </summary>
+            <value>
+            The last name.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.DateOfBirth">
+            <summary>
+            Gets the date of birth.
+            </summary>
+            <value>
+            The date of birth.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Gender">
+            <summary>
+            Gets the gender.
+            </summary>
+            <value>
+            The gender.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Salary">
+            <summary>
+            Gets the salary.
+            </summary>
+            <value>
+            The salary.
+            </value>
+        </member>
+        <member name="P:FileCabinetApp.ParametersForRecord.Points">
+            <summary>
+            Gets the points.
+            </summary>
+            <value>
+            The points.
+            </value>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Includes logic of integration with user.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            Start point of the application.
+            </summary>
+            <param name="args">Array of a console string.</param>
+        </member>
+        <member name="T:FileCabinetApp.Resource.Resources">
+            <summary>
+              Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.ResourceManager">
+            <summary>
+              Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.Culture">
+            <summary>
+              Перезаписывает свойство CurrentUICulture текущего потока для всех
+              обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.AvailableCommands">
+            <summary>
+              Ищет локализованную строку, похожую на Available commands:.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.castomValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Using custom validation rules..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.DateOfBirth">
+            <summary>
+              Ищет локализованную строку, похожую на Date of birth: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.defaultValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Using default validation rules..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.DevelopedBy">
+            <summary>
+              Ищет локализованную строку, похожую на File Cabinet Application, developed by.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.DeveloperName">
+            <summary>
+              Ищет локализованную строку, похожую на Andrei Zakharchuk..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.Exiting">
+            <summary>
+              Ищет локализованную строку, похожую на Exiting an application....
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.FirstName">
+            <summary>
+              Ищет локализованную строку, похожую на First name: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.Gender">
+            <summary>
+              Ищет локализованную строку, похожую на Gender: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.GreaterThan">
+            <summary>
+              Ищет локализованную строку, похожую на &gt;.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.HintMessage">
+            <summary>
+              Ищет локализованную строку, похожую на Enter your command, or enter &apos;help&apos; to get help..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.LastName">
+            <summary>
+              Ищет локализованную строку, похожую на Last name: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.Points">
+            <summary>
+              Ищет локализованную строку, похожую на Points: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.Salary">
+            <summary>
+              Ищет локализованную строку, похожую на Salary: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.unknownValidation">
+            <summary>
+              Ищет локализованную строку, похожую на Unknown start command.Using default validation rules..
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.DictionaryService`1">
+            <summary>
+            Describes working with <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <typeparam name="T">Type of Key in <see cref="T:FileCabinetApp.DictionaryService`1"/>.</typeparam>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.#ctor(System.Collections.Generic.Dictionary{`0,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.DictionaryService`1"/> class.
+            </summary>
+            <param name="dictionary">Instance of <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.AddRecord(FileCabinetApp.FileCabinetRecord,`0)">
+            <summary>
+            Add new record <see cref="T:FileCabinetApp.FileCabinetRecord"/> in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="fileCabinet">Add <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
+            <param name="key">The key of <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.FindByParam(`0)">
+            <summary>
+            Find <see cref="T:FileCabinetApp.FileCabinetRecord"/>s in the <see cref="T:System.Collections.Generic.Dictionary`2"/> by key <paramref name="byParam"/>.
+            </summary>
+            <param name="byParam">Key of the <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
+            <returns>List of the <see cref="T:FileCabinetApp.FileCabinetRecord"/>s.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.EditRecord(FileCabinetApp.FileCabinetRecord,`0,`0)">
+            <summary>
+            Edits record in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="newFileRecord"><see cref="T:FileCabinetApp.FileCabinetRecord"/> what user want to changes.</param>
+            <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
+            <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
+            and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            </summary>
+            <param name="validator">Reference on IRRecordValidator.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByDate(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CheckId(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetTypeValidator">
+            <inheritdoc/>
+        </member>
     </members>
 </doc>
