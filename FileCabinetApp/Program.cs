@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -203,6 +204,10 @@ namespace FileCabinetApp
                 {
                     throw new ArgumentException($"Incorrect command - {parameters}.");
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             catch (ArgumentNullException ex)
             {

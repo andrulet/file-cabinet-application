@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FileCabinetApp;
 
 namespace FileCabinetApp
 {
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, char gender, decimal salary, short points)
         {
@@ -23,7 +25,7 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
-
+            this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
             return record.Id;
         }
 
@@ -31,12 +33,14 @@ namespace FileCabinetApp
         {
             CheckFieldsOnException(firstName, lastName, dateOfBirth, gender, salary, points);
             var record = this.list.ElementAt(id - 1);
+            var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = firstName;
             record.LastName = lastName;
             record.DateOfBirth = dateOfBirth;
             record.Gender = gender;
             record.Salary = salary;
             record.Points = points;
+            this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
         }
 
         public FileCabinetRecord[] GetRecords()
@@ -51,13 +55,7 @@ namespace FileCabinetApp
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
-            var records = this.list.Where(rec => rec.FirstName.ToUpperInvariant() == firstName);
-            if (records == null)
-            {
-                throw new ArgumentNullException($"Records not found by key {nameof(firstName)}({firstName}).");
-            }
-
-            return records.ToArray();
+            return this.dictionaryByFirstNameKey.FindByParam(firstName);
         }
 
         public FileCabinetRecord[] FindByLastName(string lastName)
