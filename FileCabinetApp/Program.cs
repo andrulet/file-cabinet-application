@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp
 {
@@ -15,7 +16,7 @@ namespace FileCabinetApp
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
 
-        private static readonly FileCabinetService FileCabinetService = new FileCabinetService();
+        private static readonly FileCabinetService FileCabinetService = new FileCabinetCustomService();
 
         private static readonly Tuple<string, Action<string>>[] Commands = new Tuple<string, Action<string>>[]
         {

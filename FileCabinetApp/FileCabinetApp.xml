@@ -253,6 +253,24 @@
             <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
             <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
         </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetCustomService">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetCustomService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetDefaultService">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
@@ -311,6 +329,18 @@
             </summary>
             <param name="id">Id to check.</param>
             <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CheckStringOnException(System.String)">
+            <summary>
+            Checks string parametr on excrption.
+            </summary>
+            <param name="stringCheck">String for checking.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <summary>
+            Validates entered parameters.
+            </summary>
+            <param name="parameters">Parameters for validating.</param>
         </member>
     </members>
 </doc>

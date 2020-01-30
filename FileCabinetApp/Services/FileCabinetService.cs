@@ -8,7 +8,7 @@ namespace FileCabinetApp
     /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
     /// and <see cref="Dictionary{TKey, Tvalue}"/>, where Tvalue is <see cref="FileCabinetRecord"/> instance.
     /// </summary>
-    public class FileCabinetService
+    public abstract class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
@@ -27,7 +27,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            CheckFieldsOnException(parameters);
+            this.ValidateParameters(parameters);
             var record = new FileCabinetRecord
             {
                 Id = this.list.Count + 1,
@@ -57,7 +57,7 @@ namespace FileCabinetApp
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            CheckFieldsOnException(parameters);
+            this.ValidateParameters(parameters);
             var record = this.list.ElementAt(parameters.Id - 1);
             var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = parameters.FirstName;
@@ -137,46 +137,16 @@ namespace FileCabinetApp
             }
         }
 
-        private static void CheckStringOnException(string stringCheck)
-        {
-            if (stringCheck.Length < 2 || stringCheck.Length > 60)
-            {
-                throw new ArgumentException(stringCheck + " - word length less than 2 simbols or more than 60.");
-            }
+        /// <summary>
+        /// Checks string parametr on excrption.
+        /// </summary>
+        /// <param name="stringCheck">String for checking.</param>
+        protected abstract void CheckStringOnException(string stringCheck);
 
-            if (string.IsNullOrEmpty(stringCheck))
-            {
-                throw new ArgumentNullException(stringCheck + " - word is null or empty.");
-            }
-        }
-
-        private static void CheckFieldsOnException(ParametersForRecord parameters)
-        {
-            var dateOfBirth = parameters.DateOfBirth;
-            var gender = parameters.Gender;
-            var points = parameters.Points;
-            var salary = parameters.Salary;
-            CheckStringOnException(parameters.FirstName);
-            CheckStringOnException(parameters.LastName);
-            if (dateOfBirth < new DateTime(1950, 1, 1) || dateOfBirth > DateTime.Now)
-            {
-                throw new ArgumentException($"Invalid input {nameof(dateOfBirth)}({dateOfBirth})");
-            }
-
-            if ((gender != 'M') && (gender != 'F'))
-            {
-                throw new ArgumentException($"Invalid input {nameof(gender)}({gender})");
-            }
-
-            if (points > short.MaxValue || points < 0)
-            {
-                throw new ArgumentException($"Invalid {nameof(points)}({points}). The points mast be greater than 0 or less than " + short.MaxValue);
-            }
-
-            if (salary > decimal.MaxValue || salary < 0)
-            {
-                throw new ArgumentException($"Invalid {nameof(salary)}({salary}). The salary mast be greater than 0 or less than " + decimal.MaxValue);
-            }
-        }
+        /// <summary>
+        /// Validates entered parameters.
+        /// </summary>
+        /// <param name="parameters">Parameters for validating.</param>
+        protected abstract void ValidateParameters(ParametersForRecord parameters);
     }
 }
