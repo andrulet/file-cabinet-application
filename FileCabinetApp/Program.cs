@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using FileCabinetApp.Interfaces;
+using FileCabinetApp.Resource;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -42,6 +44,12 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
         private static IFileCabinetService fileCabinetService;
+        private static Func<string, Tuple<bool, string>> firstNameValidator;
+        private static Func<string, Tuple<bool, string>> lastNameValidator;
+        private static Func<DateTime, Tuple<bool, string>> dateOfBirthValidator;
+        private static Func<char, Tuple<bool, string>> genderValidator;
+        private static Func<decimal, Tuple<bool, string>> salaryValidator;
+        private static Func<short, Tuple<bool, string>> pointsValidator;
 
         /// <summary>
         /// Start point of the application.
@@ -59,20 +67,20 @@ namespace FileCabinetApp
                 ValidArgs(args);
                 Console.OutputEncoding = Encoding.UTF8;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-                Console.WriteLine($"{Resources.Resources.DevelopedBy}{Resources.Resources.DeveloperName}");
-                Console.WriteLine(Resources.Resources.HintMessage);
+                Console.WriteLine($"{Resources.DevelopedBy}{Resources.DeveloperName}");
+                Console.WriteLine(Resources.HintMessage);
                 Console.WriteLine();
 
                 do
                 {
-                    Console.Write(Resources.Resources.GreaterThan);
+                    Console.Write(Resources.GreaterThan);
                     var inputs = Console.ReadLine().Split(' ', 2);
                     const int commandIndex = 0;
                     var command = inputs[commandIndex];
 
                     if (string.IsNullOrEmpty(command))
                     {
-                        Console.WriteLine(Resources.Resources.HintMessage);
+                        Console.WriteLine(Resources.HintMessage);
                         continue;
                     }
 
@@ -118,7 +126,7 @@ namespace FileCabinetApp
             }
             else
             {
-                Console.WriteLine(Resources.Resources.AvailableCommands);
+                Console.WriteLine(Resources.AvailableCommands);
 
                 foreach (var helpMessage in HelpMessages)
                 {
@@ -131,7 +139,7 @@ namespace FileCabinetApp
 
         private static void Exit(string parameters)
         {
-            Console.WriteLine(Resources.Resources.Exiting);
+            Console.WriteLine(Resources.Exiting);
             isRunning = false;
         }
 
@@ -143,54 +151,60 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            try
-            {
-                ParametersForRecord converParameters = Convertor();
-                int number = Program.fileCabinetService.CreateRecord(converParameters);
-                Console.WriteLine($"Record #{number} is created");
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine(ex.Message);
-                Create(string.Empty);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(ex.Message);
-                Create(string.Empty);
-            }
+            GetValidators();
+            Console.Write(Resources.FirstName);
+            var firstName = ReadInput(Converter.StringConvertor, firstNameValidator);
+            Console.Write(Resources.LastName);
+            var lastName = ReadInput(Converter.StringConvertor, lastNameValidator);
+            Console.Write(Resources.DateOfBirth);
+            var dateOfBirth = ReadInput(Converter.DateConvertor, dateOfBirthValidator);
+            Console.Write(Resources.Gender);
+            var gender = ReadInput(Converter.CharConvertor, genderValidator);
+            Console.Write(Resources.Salary);
+            var salary = ReadInput(Converter.DecimalConvertor, salaryValidator);
+            Console.Write(Resources.Points);
+            var points = ReadInput(Converter.ShortConvertor, pointsValidator);
+            var validParametres = new ParametersForRecord(firstName, lastName, dateOfBirth, gender, salary, points);
+            int number = fileCabinetService.CreateRecord(validParametres);
+            Console.WriteLine($"Record #{number} is created");
         }
 
-        private static void Edit(string parameters)
+        private static void Edit(string parameter)
         {
-            try
+            if (string.IsNullOrEmpty(parameter))
             {
-                if (!int.TryParse(parameters, out int id) || id < 1 || id > int.MaxValue)
-                {
-                    throw new ArgumentException($"Incorrect {nameof(id)}({id}). Id must be more than 0 and less {int.MaxValue}.");
-                }
+                Console.WriteLine($"You entered incorrect {parameter}.");
+            }
 
-                if (fileCabinetService.CheckId(id))
+            if (int.TryParse(parameter, out int id))
+            {
+                if (fileCabinetService.GetRecords().Where(rec => rec.Id == id) != null)
                 {
-                    ParametersForRecord converParameters = Convertor();
-                    fileCabinetService.EditRecord(new ParametersForRecord(
-                        converParameters.FirstName,
-                        converParameters.LastName,
-                        converParameters.DateOfBirth,
-                        converParameters.Gender,
-                        converParameters.Salary,
-                        converParameters.Points,
-                        id));
-                    Console.WriteLine($"Record #{id} is created");
+                    GetValidators();
+                    Console.Write(Resources.FirstName);
+                    var firstName = ReadInput(Converter.StringConvertor, firstNameValidator);
+                    Console.Write(Resources.LastName);
+                    var lastName = ReadInput(Converter.StringConvertor, lastNameValidator);
+                    Console.Write(Resources.DateOfBirth);
+                    var dateOfBirth = ReadInput(Converter.DateConvertor, dateOfBirthValidator);
+                    Console.Write(Resources.Gender);
+                    var gender = ReadInput(Converter.CharConvertor, genderValidator);
+                    Console.Write(Resources.Salary);
+                    var salary = ReadInput(Converter.DecimalConvertor, salaryValidator);
+                    Console.Write(Resources.Points);
+                    var points = ReadInput(Converter.ShortConvertor, pointsValidator);
+                    var validParametres = new ParametersForRecord(firstName, lastName, dateOfBirth, gender, salary, points, id);
+                    fileCabinetService.EditRecord(validParametres);
+                    Console.WriteLine($"Record #{id} is updated.");
+                }
+                else
+                {
+                    Console.WriteLine($"The record with Id = {id} not found.");
                 }
             }
-            catch (ArgumentNullException ex)
+            else
             {
-                Console.WriteLine(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"{nameof(parameter)}({parameter}) must be an integer.");
             }
         }
 
@@ -208,11 +222,13 @@ namespace FileCabinetApp
                 if (string.Equals(command[0], "FIRSTNAME", StringComparison.InvariantCultureIgnoreCase))
                 {
                     list = fileCabinetService.FindByFirstName(command[1].Trim('"'));
+                    CheckCollectionOnEmpty(list);
                     ShortShowRecords(list);
                 }
                 else if (string.Equals(command[0], "LASTNAME", StringComparison.InvariantCultureIgnoreCase))
                 {
                     list = fileCabinetService.FindByLastName(command[1].Trim('"'));
+                    CheckCollectionOnEmpty(list);
                     ShortShowRecords(list);
                 }
                 else if (string.Equals(command[0], "DATE", StringComparison.InvariantCultureIgnoreCase))
@@ -223,6 +239,7 @@ namespace FileCabinetApp
                     }
 
                     list = fileCabinetService.FindByDate(date);
+                    CheckCollectionOnEmpty(list);
                     ShortShowRecords(list);
                 }
                 else
@@ -253,49 +270,6 @@ namespace FileCabinetApp
             }
         }
 
-        private static ParametersForRecord Convertor()
-        {
-            Console.Write(Resources.Resources.FirstName);
-            string firstName = Console.ReadLine().Trim();
-            if (string.IsNullOrEmpty(firstName))
-            {
-                throw new ArgumentNullException($"You entered incorrect {nameof(firstName)}({firstName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
-            }
-
-            Console.Write(Resources.Resources.LastName);
-            string lastName = Console.ReadLine().Trim();
-            if (string.IsNullOrEmpty(lastName))
-            {
-                throw new ArgumentNullException($"You entered incorrect {nameof(lastName)}({lastName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
-            }
-
-            Console.Write(Resources.Resources.DateOfBirth);
-            if (!DateTime.TryParse(Console.ReadLine().Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth))
-            {
-                throw new ArgumentException($"You entered incorrect {nameof(dayBirth)}({dayBirth}) person. Enter again");
-            }
-
-            Console.Write(Resources.Resources.Gender);
-            if (!char.TryParse(Console.ReadLine().Trim().ToUpperInvariant(), out char gender))
-            {
-                throw new ArgumentException($"You entered incorrect {nameof(gender)}({gender}) person. Enter again");
-            }
-
-            Console.Write(Resources.Resources.Salary);
-            if (!decimal.TryParse(Console.ReadLine().Trim(), out decimal salary))
-            {
-                throw new ArgumentException($"You entered incorrect {nameof(salary)}({salary}) person. Enter again");
-            }
-
-            Console.Write(Resources.Resources.Points);
-            if (!short.TryParse(Console.ReadLine().Trim(), out short points))
-            {
-                throw new ArgumentException($"You entered incorrect {nameof(points)}({points}) person. Enter again");
-            }
-
-            return new ParametersForRecord(firstName, lastName, dayBirth, gender, salary, points);
-        }
-
         private static void ShortShowRecords(ReadOnlyCollection<FileCabinetRecord> list)
         {
             foreach (var x in list)
@@ -309,7 +283,7 @@ namespace FileCabinetApp
             if (args.Length == 0)
             {
                 fileCabinetService = new FileCabinetService(new DefaultValidator());
-                Console.WriteLine(Resources.Resources.defaultValidation);
+                Console.WriteLine(Resources.defaultValidation);
                 return;
             }
 
@@ -333,26 +307,86 @@ namespace FileCabinetApp
                     if (commands[1].Equals("CUSTOM", StringComparison.InvariantCultureIgnoreCase))
                     {
                         fileCabinetService = new FileCabinetService(new CustomValidator());
-                        Console.WriteLine(Resources.Resources.castomValidation);
+                        Console.WriteLine(Resources.castomValidation);
                         return;
                     }
                     else if (commands[1].Equals("DEFAULT", StringComparison.InvariantCultureIgnoreCase))
                     {
                         fileCabinetService = new FileCabinetService(new DefaultValidator());
-                        Console.WriteLine(Resources.Resources.defaultValidation);
+                        Console.WriteLine(Resources.defaultValidation);
                         return;
                     }
                     else
                     {
                         fileCabinetService = new FileCabinetService(new DefaultValidator());
-                        Console.WriteLine(Resources.Resources.unknownValidation);
+                        Console.WriteLine(Resources.unknownValidation);
                         return;
                     }
                 }
             }
 
             fileCabinetService = new FileCabinetService(new DefaultValidator());
-            Console.WriteLine(Resources.Resources.unknownValidation);
+            Console.WriteLine(Resources.unknownValidation);
+        }
+
+        private static void CheckCollectionOnEmpty(ReadOnlyCollection<FileCabinetRecord> collection)
+        {
+            if (collection.Count == 0)
+            {
+                throw new ArgumentNullException($"There is a key in the dictionary, but the {nameof(collection)} is empty.");
+            }
+        }
+
+        private static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
+        {
+            do
+            {
+                T value;
+
+                var input = Console.ReadLine();
+                var conversionResult = converter(input);
+
+                if (!conversionResult.Item1)
+                {
+                    Console.WriteLine($"Conversion failed: {conversionResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                value = conversionResult.Item3;
+
+                var validationResult = validator(value);
+                if (!validationResult.Item1)
+                {
+                    Console.WriteLine($"Validation failed: {validationResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                return value;
+            }
+            while (true);
+        }
+
+        private static void GetValidators()
+        {
+            if (fileCabinetService.GetTypeValidator() == typeof(DefaultValidator))
+            {
+                firstNameValidator = DefaultValidator.FirstNameValidator;
+                lastNameValidator = DefaultValidator.LastNameValidator;
+                dateOfBirthValidator = DefaultValidator.DateTimeValidator;
+                genderValidator = DefaultValidator.CharValidator;
+                salaryValidator = DefaultValidator.DecimalValidator;
+                pointsValidator = DefaultValidator.ShortValidator;
+            }
+
+            if (fileCabinetService.GetTypeValidator() == typeof(CustomValidator))
+            {
+                firstNameValidator = CustomValidator.FirstNameValidator;
+                lastNameValidator = CustomValidator.LastNameValidator;
+                dateOfBirthValidator = CustomValidator.DateTimeValidator;
+                genderValidator = CustomValidator.CharValidator;
+                salaryValidator = CustomValidator.DecimalValidator;
+                pointsValidator = CustomValidator.ShortValidator;
+            }
         }
     }
 }

@@ -62,5 +62,11 @@ namespace FileCabinetApp.Interfaces
         /// <param name="id">Id to check.</param>
         /// <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
         bool CheckId(int id);
+
+        /// <summary>
+        /// Gets type of validator.
+        /// </summary>
+        /// <returns>Type of validator.</returns>
+        public Type GetTypeValidator();
     }
 }

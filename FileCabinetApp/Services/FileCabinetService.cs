@@ -120,5 +120,11 @@ namespace FileCabinetApp
                 return true;
             }
         }
+
+        /// <inheritdoc/>
+        public Type GetTypeValidator()
+        {
+            return this.validator.GetType();
+        }
     }
 }
