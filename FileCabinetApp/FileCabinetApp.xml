@@ -60,6 +60,104 @@
         <member name="M:FileCabinetApp.FileCabinetRecord.Clone">
             <inheritdoc/>
         </member>
+        <member name="T:FileCabinetApp.Interfaces.IFileCabinetService">
+            <summary>
+            Describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
+            and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+            <summary>
+             Creates a new <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <returns>The Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
+            <summary>
+            Change information about <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
+            <summary>
+            Gets array of records.
+            </summary>
+            <returns>List of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetStat">
+            <summary>
+            Gets number of records in the list of records.
+            </summary>
+            <returns>Count of record in the list.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the first name of records.
+            </summary>
+            <param name="firstName">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the last name of records.
+            </summary>
+            <param name="lastName">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.FindByDate(System.DateTime)">
+            <summary>
+            Finds the records in the dictionary by the date of the birth of records.
+            </summary>
+            <param name="dayOfBirth">The key for searching in the dictionary.</param>
+            <returns>List of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CheckId(System.Int32)">
+            <summary>
+            Checks id on list.
+            </summary>
+            <param name="id">Id to check.</param>
+            <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Validators.IRecordValidator">
+            <summary>
+            This interface contains of the methods for validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <summary>
+            Validates entered parameters.
+            </summary>
+            <param name="parameters">Parameters for validating.</param>
+        </member>
+        <member name="M:FileCabinetApp.Validators.IRecordValidator.CheckStringOnException(System.String)">
+            <summary>
+            Checks string parametr on excrption.
+            </summary>
+            <param name="stringCheck">String for checking.</param>
+        </member>
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            This class contains of the methods for defualt validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            This class contains of the methods for defualt validation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.CheckStringOnException(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
         <member name="T:FileCabinetApp.ParametersForRecord">
             <summary>
             Consists of properties for creating and changing the instances of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
@@ -282,96 +380,28 @@
             <param name="validator">Reference on IRRecordValidator.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
-            <summary>
-             Creates a new <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
-            </summary>
-            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-            <returns>The Id of record.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
-            <summary>
-            Change information about <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
-            </summary>
-            <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
-            <summary>
-            Gets array of records.
-            </summary>
-            <returns>List of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.GetStat">
-            <summary>
-            Gets number of records in the list of records.
-            </summary>
-            <returns>Count of record in the list.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Finds the records in the dictionary by the first name of records.
-            </summary>
-            <param name="firstName">The key for searching in the dictionary.</param>
-            <returns>List of the records.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Finds the records in the dictionary by the last name of records.
-            </summary>
-            <param name="lastName">The key for searching in the dictionary.</param>
-            <returns>List of the records.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByDate(System.DateTime)">
-            <summary>
-            Finds the records in the dictionary by the date of the birth of records.
-            </summary>
-            <param name="dayOfBirth">The key for searching in the dictionary.</param>
-            <returns>List of the records.</returns>
+            <inheritdoc/>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CheckId(System.Int32)">
-            <summary>
-            Checks id on list.
-            </summary>
-            <param name="id">Id to check.</param>
-            <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
-        </member>
-        <member name="T:FileCabinetApp.Validators.CustomValidator">
-            <summary>
-            This class contains of the methods for defualt validation.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.CheckStringOnException(System.String)">
             <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
-            <inheritdoc/>
-        </member>
-        <member name="T:FileCabinetApp.Validators.DefaultValidator">
-            <summary>
-            This class contains of the methods for defualt validation.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.CheckStringOnException(System.String)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
-            <inheritdoc/>
-        </member>
-        <member name="T:FileCabinetApp.Validators.IRecordValidator">
-            <summary>
-            This interface contains of the methods for validation.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
-            <summary>
-            Validates entered parameters.
-            </summary>
-            <param name="parameters">Parameters for validating.</param>
-        </member>
-        <member name="M:FileCabinetApp.Validators.IRecordValidator.CheckStringOnException(System.String)">
-            <summary>
-            Checks string parametr on excrption.
-            </summary>
-            <param name="stringCheck">String for checking.</param>
         </member>
     </members>
 </doc>

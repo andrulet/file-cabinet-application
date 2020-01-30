@@ -51,12 +51,12 @@ namespace FileCabinetApp.Validators
 
             if (points > short.MaxValue || points < 10)
             {
-                throw new ArgumentException($"Invalid {nameof(points)}({points}). The points mast be greater than 0 or less than " + short.MaxValue);
+                throw new ArgumentException($"Invalid {nameof(points)}({points}). The points mast be greater than 10 or less than " + short.MaxValue);
             }
 
             if (salary > decimal.MaxValue || salary < 100)
             {
-                throw new ArgumentException($"Invalid {nameof(salary)}({salary}). The salary mast be greater than 0 or less than " + decimal.MaxValue);
+                throw new ArgumentException($"Invalid {nameof(salary)}({salary}). The salary mast be greater than 100 or less than " + decimal.MaxValue);
             }
         }
     }

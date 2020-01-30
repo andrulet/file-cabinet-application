@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Threading;
+using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -40,7 +41,7 @@ namespace FileCabinetApp
         };
 
         private static bool isRunning = true;
-        private static FileCabinetService fileCabinetService;
+        private static IFileCabinetService fileCabinetService;
 
         /// <summary>
         /// Start point of the application.

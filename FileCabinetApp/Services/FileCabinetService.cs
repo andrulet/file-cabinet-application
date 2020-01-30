@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -10,7 +11,7 @@ namespace FileCabinetApp
     /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
     /// and <see cref="Dictionary{TKey, Tvalue}"/>, where Tvalue is <see cref="FileCabinetRecord"/> instance.
     /// </summary>
-    public class FileCabinetService
+    public class FileCabinetService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
@@ -27,11 +28,7 @@ namespace FileCabinetApp
             this.validator = validator;
         }
 
-        /// <summary>
-        ///  Creates a new <see cref="FileCabinetRecord"/> class record and saves it in the <see cref="Dictionary{TKey, TValue}"/>.
-        /// </summary>
-        /// <param name="parameters">Parameters for creating the instance of <see cref="FileCabinetRecord"/> class.</param>
-        /// <returns>The Id of record.</returns>
+        /// <inheritdoc/>
         public int CreateRecord(ParametersForRecord parameters)
         {
             if (parameters == null)
@@ -58,10 +55,7 @@ namespace FileCabinetApp
             return record.Id;
         }
 
-        /// <summary>
-        /// Change information about <see cref="FileCabinetRecord"/> class record and saves it in the <see cref="Dictionary{TKey, TValue}"/>.
-        /// </summary>
-        /// <param name="parameters">Parameters for creating the instance of <see cref="FileCabinetRecord"/> class.</param>
+        /// <inheritdoc/>
         public void EditRecord(ParametersForRecord parameters)
         {
             if (parameters == null)
@@ -83,59 +77,37 @@ namespace FileCabinetApp
             this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
         }
 
-        /// <summary>
-        /// Gets array of records.
-        /// </summary>
-        /// <returns>List of <see cref="FileCabinetRecord"/> class.</returns>
+        /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
             return new ReadOnlyCollection<FileCabinetRecord>(this.list);
         }
 
-        /// <summary>
-        /// Gets number of records in the list of records.
-        /// </summary>
-        /// <returns>Count of record in the list.</returns>
+        /// <inheritdoc/>
         public int GetStat()
         {
             return this.list.Count;
         }
 
-        /// <summary>
-        /// Finds the records in the dictionary by the first name of records.
-        /// </summary>
-        /// <param name="firstName">The key for searching in the dictionary.</param>
-        /// <returns>List of the records.</returns>
+        /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
             return this.dictionaryByFirstNameKey.FindByParam(firstName);
         }
 
-        /// <summary>
-        /// Finds the records in the dictionary by the last name of records.
-        /// </summary>
-        /// <param name="lastName">The key for searching in the dictionary.</param>
-        /// <returns>List of the records.</returns>
+        /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
             return this.dictionaryByLastNameKey.FindByParam(lastName);
         }
 
-        /// <summary>
-        /// Finds the records in the dictionary by the date of the birth of records.
-        /// </summary>
-        /// <param name="dayOfBirth">The key for searching in the dictionary.</param>
-        /// <returns>List of the records.</returns>
+        /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth)
         {
             return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
         }
 
-        /// <summary>
-        /// Checks id on list.
-        /// </summary>
-        /// <param name="id">Id to check.</param>
-        /// <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
+        /// <inheritdoc/>
         public bool CheckId(int id)
         {
             var record = this.list.Find(rec => rec.Id == id);
