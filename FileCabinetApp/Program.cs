@@ -6,10 +6,11 @@ using System.Threading;
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Includes logic of integration with user.
+    /// </summary>
     public static class Program
     {
-        private const string DeveloperName = "Andrei Zakharchuk";
-        private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
@@ -40,24 +41,27 @@ namespace FileCabinetApp
 
         private static bool isRunning = true;
 
+        /// <summary>
+        /// Start point of the application.
+        /// </summary>
         public static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
-            Console.WriteLine(Program.HintMessage);
+            Console.WriteLine($"{Resources.Resources.DevelopedBy}{Resources.Resources.DeveloperName}");
+            Console.WriteLine(Resources.Resources.HintMessage);
             Console.WriteLine();
 
             do
             {
-                Console.Write("> ");
+                Console.Write(Resources.Resources.GreaterThan);
                 var inputs = Console.ReadLine().Split(' ', 2);
                 const int commandIndex = 0;
                 var command = inputs[commandIndex];
 
                 if (string.IsNullOrEmpty(command))
                 {
-                    Console.WriteLine(Program.HintMessage);
+                    Console.WriteLine(Resources.Resources.HintMessage);
                     continue;
                 }
 
@@ -98,11 +102,11 @@ namespace FileCabinetApp
             }
             else
             {
-                Console.WriteLine("Available commands:");
+                Console.WriteLine(Resources.Resources.AvailableCommands);
 
                 foreach (var helpMessage in HelpMessages)
                 {
-                    Console.WriteLine("\t{0}\t- {1}", helpMessage[Program.CommandHelpIndex], helpMessage[Program.DescriptionHelpIndex]);
+                    Console.WriteLine($"\t{helpMessage[Program.CommandHelpIndex]}\t- {helpMessage[Program.DescriptionHelpIndex]}");
                 }
             }
 
@@ -111,7 +115,7 @@ namespace FileCabinetApp
 
         private static void Exit(string parameters)
         {
-            Console.WriteLine("Exiting an application...");
+            Console.WriteLine(Resources.Resources.Exiting);
             isRunning = false;
         }
 
@@ -230,39 +234,39 @@ namespace FileCabinetApp
 
         private static Tuple<string, string, DateTime, char, decimal, short> Convertor()
         {
-            Console.Write("First name: ");
+            Console.Write(Resources.Resources.FirstName);
             string firstName = Console.ReadLine().Trim();
             if (string.IsNullOrEmpty(firstName))
             {
                 throw new ArgumentNullException($"You entered incorrect {nameof(firstName)}({firstName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
             }
 
-            Console.Write("Last name: ");
+            Console.Write(Resources.Resources.LastName);
             string lastName = Console.ReadLine().Trim();
             if (string.IsNullOrEmpty(lastName))
             {
                 throw new ArgumentNullException($"You entered incorrect {nameof(lastName)}({lastName}) person, {nameof(firstName)} can't be a null or empty. Enter again");
             }
 
-            Console.Write("Date of birth: ");
+            Console.Write(Resources.Resources.DateOfBirth);
             if (!DateTime.TryParse(Console.ReadLine().Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth))
             {
                 throw new ArgumentException($"You entered incorrect {nameof(dayBirth)}({dayBirth}) person. Enter again");
             }
 
-            Console.Write("Your gender: ");
+            Console.Write(Resources.Resources.Gender);
             if (!char.TryParse(Console.ReadLine().Trim().ToUpperInvariant(), out char gender))
             {
                 throw new ArgumentException($"You entered incorrect {nameof(gender)}({gender}) person. Enter again");
             }
 
-            Console.Write("Your salary: ");
+            Console.Write(Resources.Resources.Salary);
             if (!decimal.TryParse(Console.ReadLine().Trim(), out decimal salary))
             {
                 throw new ArgumentException($"You entered incorrect {nameof(salary)}({salary}) person. Enter again");
             }
 
-            Console.Write("Your points: ");
+            Console.Write(Resources.Resources.Points);
             if (!short.TryParse(Console.ReadLine().Trim(), out short points))
             {
                 throw new ArgumentException($"You entered incorrect {nameof(points)}({points}) person. Enter again");

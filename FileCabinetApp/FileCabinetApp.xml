@@ -4,5 +4,251 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            This class contains data about the recording and operations with them, describing some information about person.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets id of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Integer Id.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets first name of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>String first name.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets last name of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>String last name.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets date of birth of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>DataTime date of birth.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Gender">
+            <summary>
+            Gets or sets gender of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Char gender.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Salary">
+            <summary>
+            Gets or sets salary of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Decimal salary.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Points">
+            <summary>
+            Gets or sets points of an instance a <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <value>Short points.</value>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.Copy(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            This method copies the fields from the <see cref="T:FileCabinetApp.FileCabinetRecord"/> <paramref name="other"/> to the carrent instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+            <param name="other">It's instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class from which the fields are copied.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.Clone">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Includes logic of integration with user.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main">
+            <summary>
+            Start point of the application.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Resources.Resources">
+            <summary>
+              Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.ResourceManager">
+            <summary>
+              Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.Culture">
+            <summary>
+              Перезаписывает свойство CurrentUICulture текущего потока для всех
+              обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.AvailableCommands">
+            <summary>
+              Ищет локализованную строку, похожую на Available commands:.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.DateOfBirth">
+            <summary>
+              Ищет локализованную строку, похожую на Date of birth: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.DevelopedBy">
+            <summary>
+              Ищет локализованную строку, похожую на File Cabinet Application, developed by.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.DeveloperName">
+            <summary>
+              Ищет локализованную строку, похожую на Andrei Zakharchuk..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.Exiting">
+            <summary>
+              Ищет локализованную строку, похожую на Exiting an application....
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.FirstName">
+            <summary>
+              Ищет локализованную строку, похожую на First name: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.Gender">
+            <summary>
+              Ищет локализованную строку, похожую на Gender: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.GreaterThan">
+            <summary>
+              Ищет локализованную строку, похожую на &gt;.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.HintMessage">
+            <summary>
+              Ищет локализованную строку, похожую на Enter your command, or enter &apos;help&apos; to get help..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.LastName">
+            <summary>
+              Ищет локализованную строку, похожую на Last name: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.Points">
+            <summary>
+              Ищет локализованную строку, похожую на Points: .
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resources.Resources.Salary">
+            <summary>
+              Ищет локализованную строку, похожую на Salary: .
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.DictionaryService`1">
+            <summary>
+            Describes working with <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <typeparam name="T">Type of Key in <see cref="T:FileCabinetApp.DictionaryService`1"/>.</typeparam>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.#ctor(System.Collections.Generic.Dictionary{`0,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.DictionaryService`1"/> class.
+            </summary>
+            <param name="dictionary">Instance of <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.AddRecord(FileCabinetApp.FileCabinetRecord,`0)">
+            <summary>
+            Add new record <see cref="T:FileCabinetApp.FileCabinetRecord"/> in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="fileCabinet">Add <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
+            <param name="key">The key of <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.FindByParam(`0)">
+            <summary>
+            Find <see cref="T:FileCabinetApp.FileCabinetRecord"/>s in the <see cref="T:System.Collections.Generic.Dictionary`2"/> by key <paramref name="byParam"/>.
+            </summary>
+            <param name="byParam">Key of the <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
+            <returns>Array of the <see cref="T:FileCabinetApp.FileCabinetRecord"/>s.</returns>
+        </member>
+        <member name="M:FileCabinetApp.DictionaryService`1.EditRecord(FileCabinetApp.FileCabinetRecord,`0,`0)">
+            <summary>
+            Edits record in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="newFileRecord"><see cref="T:FileCabinetApp.FileCabinetRecord"/> what user want to changes.</param>
+            <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
+            <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
+            and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16)">
+            <summary>
+             Creates a new <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="firstName">The first name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="lastName">The last name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="dateOfBirth">The date of birth property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="gender">The gender property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="salary">The salary property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="points">The points property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <returns>The Id of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(System.Int32,System.String,System.String,System.DateTime,System.Char,System.Decimal,System.Int16)">
+            <summary>
+            Change information about <see cref="T:FileCabinetApp.FileCabinetRecord"/> class record and saves it in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+            <param name="id">The id property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="firstName">The first name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="lastName">The last name property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="dateOfBirth">The date of birth property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="gender">The gender property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="salary">The salary property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+            <param name="points">The points property for creating of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <summary>
+            Gets array of records.
+            </summary>
+            <returns>Array of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <summary>
+            Gets number of records in the list of records.
+            </summary>
+            <returns>Count of record in the list.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the first name of records.
+            </summary>
+            <param name="firstName">The key for searching in the dictionary.</param>
+            <returns>Array of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Finds the records in the dictionary by the last name of records.
+            </summary>
+            <param name="lastName">The key for searching in the dictionary.</param>
+            <returns>Array of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByDate(System.DateTime)">
+            <summary>
+            Finds the records in the dictionary by the date of the birth of records.
+            </summary>
+            <param name="dayOfBirth">The key for searching in the dictionary.</param>
+            <returns>Array of the records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CheckId(System.Int32)">
+            <summary>
+            Checks id on list.
+            </summary>
+            <param name="id">Id to check.</param>
+            <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
+        </member>
     </members>
 </doc>
