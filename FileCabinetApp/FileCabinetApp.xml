@@ -259,7 +259,7 @@
             Find <see cref="T:FileCabinetApp.FileCabinetRecord"/>s in the <see cref="T:System.Collections.Generic.Dictionary`2"/> by key <paramref name="byParam"/>.
             </summary>
             <param name="byParam">Key of the <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
-            <returns>Array of the <see cref="T:FileCabinetApp.FileCabinetRecord"/>s.</returns>
+            <returns>List of the <see cref="T:FileCabinetApp.FileCabinetRecord"/>s.</returns>
         </member>
         <member name="M:FileCabinetApp.DictionaryService`1.EditRecord(FileCabinetApp.FileCabinetRecord,`0,`0)">
             <summary>
@@ -298,7 +298,7 @@
             <summary>
             Gets array of records.
             </summary>
-            <returns>Array of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
+            <returns>List of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.GetStat">
             <summary>
@@ -311,21 +311,21 @@
             Finds the records in the dictionary by the first name of records.
             </summary>
             <param name="firstName">The key for searching in the dictionary.</param>
-            <returns>Array of the records.</returns>
+            <returns>List of the records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
             <summary>
             Finds the records in the dictionary by the last name of records.
             </summary>
             <param name="lastName">The key for searching in the dictionary.</param>
-            <returns>Array of the records.</returns>
+            <returns>List of the records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.FindByDate(System.DateTime)">
             <summary>
             Finds the records in the dictionary by the date of the birth of records.
             </summary>
             <param name="dayOfBirth">The key for searching in the dictionary.</param>
-            <returns>Array of the records.</returns>
+            <returns>List of the records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.CheckId(System.Int32)">
             <summary>

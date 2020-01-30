@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace FileCabinetApp
@@ -46,17 +47,17 @@ namespace FileCabinetApp
         /// Find <see cref="FileCabinetRecord"/>s in the <see cref="Dictionary{TKey, TValue}"/> by key <paramref name="byParam"/>.
         /// </summary>
         /// <param name="byParam">Key of the <see cref="Dictionary{TKey, TValue}"/>.</param>
-        /// <returns>Array of the <see cref="FileCabinetRecord"/>s.</returns>
-        public FileCabinetRecord[] FindByParam(T byParam)
+        /// <returns>List of the <see cref="FileCabinetRecord"/>s.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByParam(T byParam)
         {
             this.CheckKeyDictionaryOnValid(byParam);
-            var records = this.dictionary[byParam].ToArray();
-            if (records.Length == 0)
+            var records = this.dictionary[byParam];
+            if (records.Count == 0)
             {
                 throw new ArgumentNullException($"There is a key in the dictionary, but the {nameof(records)} is empty.");
             }
 
-            return records;
+            return new ReadOnlyCollection<FileCabinetRecord>(records);
         }
 
         /// <summary>

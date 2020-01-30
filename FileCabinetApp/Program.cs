@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Threading;
@@ -201,7 +202,7 @@ namespace FileCabinetApp
                     throw new ArgumentNullException($"The {nameof(parameters)} can't be null or empty.");
                 }
 
-                FileCabinetRecord[] list;
+                ReadOnlyCollection<FileCabinetRecord> list;
                 var command = parameters.Trim().ToUpperInvariant().Split(' ');
                 if (string.Equals(command[0], "FIRSTNAME", StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -294,7 +295,7 @@ namespace FileCabinetApp
             return new ParametersForRecord(firstName, lastName, dayBirth, gender, salary, points);
         }
 
-        private static void ShortShowRecords(FileCabinetRecord[] list)
+        private static void ShortShowRecords(ReadOnlyCollection<FileCabinetRecord> list)
         {
             foreach (var x in list)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FileCabinetApp.Validators;
 
@@ -85,10 +86,10 @@ namespace FileCabinetApp
         /// <summary>
         /// Gets array of records.
         /// </summary>
-        /// <returns>Array of <see cref="FileCabinetRecord"/> class.</returns>
-        public FileCabinetRecord[] GetRecords()
+        /// <returns>List of <see cref="FileCabinetRecord"/> class.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            return this.list.ToArray();
+            return new ReadOnlyCollection<FileCabinetRecord>(this.list);
         }
 
         /// <summary>
@@ -104,8 +105,8 @@ namespace FileCabinetApp
         /// Finds the records in the dictionary by the first name of records.
         /// </summary>
         /// <param name="firstName">The key for searching in the dictionary.</param>
-        /// <returns>Array of the records.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName)
+        /// <returns>List of the records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
             return this.dictionaryByFirstNameKey.FindByParam(firstName);
         }
@@ -114,8 +115,8 @@ namespace FileCabinetApp
         /// Finds the records in the dictionary by the last name of records.
         /// </summary>
         /// <param name="lastName">The key for searching in the dictionary.</param>
-        /// <returns>Array of the records.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName)
+        /// <returns>List of the records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
             return this.dictionaryByLastNameKey.FindByParam(lastName);
         }
@@ -124,8 +125,8 @@ namespace FileCabinetApp
         /// Finds the records in the dictionary by the date of the birth of records.
         /// </summary>
         /// <param name="dayOfBirth">The key for searching in the dictionary.</param>
-        /// <returns>Array of the records.</returns>
-        public FileCabinetRecord[] FindByDate(DateTime dayOfBirth)
+        /// <returns>List of the records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth)
         {
             return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
         }
