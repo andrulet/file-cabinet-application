@@ -44,6 +44,23 @@
             <param name="data">Input the points of person.</param>
             <returns>The <see cref="T:System.Tuple`3"/>.</returns>
         </member>
+        <member name="T:FileCabinetApp.Export.FileCabinetRecordCsvWriter">
+            <summary>
+            Contains method of writing record in csv format.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Export.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Export.FileCabinetRecordCsvWriter"/> class.
+            </summary>
+            <param name="writer">The text writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Export.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Writes the record in csv format.
+            </summary>
+            <param name="record">The record.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             This class contains data about the recording and operations with them, describing some information about person.
@@ -121,7 +138,7 @@
         </member>
         <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetRecords">
             <summary>
-            Gets array of records.
+            Gets list of records.
             </summary>
             <returns>List of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</returns>
         </member>
@@ -164,6 +181,12 @@
             Gets type of validator.
             </summary>
             <returns>Type of validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.MakeSnapshot">
+            <summary>
+            Returns the snapshot of current service.
+            </summary>
+            <returns>The snapshot of current service.</returns>
         </member>
         <member name="T:FileCabinetApp.Validators.IRecordValidator">
             <summary>
@@ -463,78 +486,107 @@
               Ищет локализованную строку, похожую на Unknown start command.Using default validation rules..
             </summary>
         </member>
-        <member name="T:FileCabinetApp.DictionaryService`1">
+        <member name="T:FileCabinetApp.Services.DictionaryService`1">
             <summary>
             Describes working with <see cref="T:System.Collections.Generic.Dictionary`2"/>.
             </summary>
-            <typeparam name="T">Type of Key in <see cref="T:FileCabinetApp.DictionaryService`1"/>.</typeparam>
+            <typeparam name="T">Type of Key in <see cref="T:FileCabinetApp.Services.DictionaryService`1"/>.</typeparam>
         </member>
-        <member name="M:FileCabinetApp.DictionaryService`1.#ctor(System.Collections.Generic.Dictionary{`0,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+        <member name="M:FileCabinetApp.Services.DictionaryService`1.#ctor(System.Collections.Generic.Dictionary{`0,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.DictionaryService`1"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.DictionaryService`1"/> class.
             </summary>
             <param name="dictionary">Instance of <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
         </member>
-        <member name="M:FileCabinetApp.DictionaryService`1.AddRecord(FileCabinetApp.FileCabinetRecord,`0)">
+        <member name="M:FileCabinetApp.Services.DictionaryService`1.AddRecord(FileCabinetApp.FileCabinetRecord,`0)">
             <summary>
             Add new record <see cref="T:FileCabinetApp.FileCabinetRecord"/> in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
             </summary>
             <param name="fileCabinet">Add <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
             <param name="key">The key of <see cref="T:FileCabinetApp.FileCabinetRecord"/>.</param>
         </member>
-        <member name="M:FileCabinetApp.DictionaryService`1.FindByParam(`0)">
+        <member name="M:FileCabinetApp.Services.DictionaryService`1.FindByParam(`0)">
             <summary>
             Find <see cref="T:FileCabinetApp.FileCabinetRecord"/>s in the <see cref="T:System.Collections.Generic.Dictionary`2"/> by key <paramref name="byParam"/>.
             </summary>
             <param name="byParam">Key of the <see cref="T:System.Collections.Generic.Dictionary`2"/>.</param>
             <returns>List of the <see cref="T:FileCabinetApp.FileCabinetRecord"/>s.</returns>
         </member>
-        <member name="M:FileCabinetApp.DictionaryService`1.EditRecord(FileCabinetApp.FileCabinetRecord,`0,`0)">
+        <member name="M:FileCabinetApp.Services.DictionaryService`1.EditRecord(FileCabinetApp.FileCabinetRecord,`0,`0)">
             <summary>
             Edits record in the <see cref="T:System.Collections.Generic.Dictionary`2"/>.
             </summary>
             <param name="newFileRecord"><see cref="T:FileCabinetApp.FileCabinetRecord"/> what user want to changes.</param>
             <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
-            <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
+            <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.Services.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetService">
+        <member name="T:FileCabinetApp.Services.FileCabinetService">
             <summary>
             This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
             and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetService"/> class.
             </summary>
             <param name="validator">Reference on IRRecordValidator.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.GetRecords">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.GetStat">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByFirstName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByLastName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByDate(System.DateTime)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByDate(System.DateTime)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CheckId(System.Int32)">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.CheckId(System.Int32)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetTypeValidator">
+        <member name="M:FileCabinetApp.Services.FileCabinetService.GetTypeValidator">
             <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetService.MakeSnapshot">
+            <summary>
+            Returns the snapshot of current service.
+            </summary>
+            <returns>The snapshot of current service.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetServiceSnapshot">
+            <summary>
+            This class makes snapshot all records before saves them in to file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetServiceSnapshot"/> class.
+            </summary>
+            <param name="cabinetRecords"><see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1"/>.</param>
+        </member>
+        <member name="P:FileCabinetApp.Services.FileCabinetServiceSnapshot.Records">
+            <summary>
+            Gets all records.
+            </summary>
+            <value> Array of the records.</value>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
+            <summary>
+            Saves records to csv file.
+            </summary>
+            <param name="writer">The stream writer.</param>
         </member>
     </members>
 </doc>

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Resource;
+using FileCabinetApp.Services;
 using FileCabinetApp.Validators;
 
 namespace FileCabinetApp
@@ -29,6 +32,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
         };
 
         private static readonly string[][] HelpMessages = new string[][]
@@ -40,6 +44,7 @@ namespace FileCabinetApp
             new string[] { "list", "shows a list of records", "The 'list' shows a list of records." },
             new string[] { "edit", "changes found by id list entry", "The 'edit' changes found by id list entry." },
             new string[] { "find", "finds sheet entries by the specified field (firstname, lastname, dateofbirth)", "The 'find' finds sheet entries by the specified field (firstname, lastname, dateofbirth)" },
+            new string[] { "export", "export records to csv file", "The 'export' export records to csv file." },
         };
 
         private static bool isRunning = true;
@@ -261,6 +266,50 @@ namespace FileCabinetApp
             }
         }
 
+        private static void Export(string parametres)
+        {
+            if (string.IsNullOrEmpty(parametres))
+            {
+                Console.WriteLine($"The {nameof(parametres)}({parametres}) can't be null or empty.");
+                return;
+            }
+
+            var commands = parametres.Trim().ToLower(Thread.CurrentThread.CurrentCulture).Split(' ', 2);
+            if (commands.Length != 2)
+            {
+                Console.WriteLine($"You entered incorrect count of the {nameof(commands)}({commands.Length})");
+                return;
+            }
+
+            string exportType = commands[0];
+            string path = commands[1];
+            string format;
+            Action<string> write;
+            if (string.Equals(exportType, "csv", StringComparison.InvariantCultureIgnoreCase))
+            {
+                write = WriteCsv;
+                format = "^([^/]+)(.csv)$";
+            }
+            else
+            {
+                Console.WriteLine($"You entered incorrect {nameof(exportType)}({exportType}). For example csv OR xml.");
+                return;
+            }
+
+            if (!Regex.IsMatch(path, format))
+            {
+                Console.WriteLine($@"You entered incorrect {nameof(path)}({path}). For example - d:\records.csv OR d:\records.xml");
+                return;
+            }
+
+            if (File.Exists(path) && !IsRewriteFile(path))
+            {
+                return;
+            }
+
+            write(path);
+        }
+
         private static void List(string parameters)
         {
             var list = Program.fileCabinetService.GetRecords();
@@ -386,6 +435,40 @@ namespace FileCabinetApp
                 genderValidator = CustomValidator.CharValidator;
                 salaryValidator = CustomValidator.DecimalValidator;
                 pointsValidator = CustomValidator.ShortValidator;
+            }
+        }
+
+        private static bool IsRewriteFile(string path)
+        {
+            Console.WriteLine($"File is exist - rewrite {path}? [Y/n]");
+            char answer;
+            bool isCorrect;
+            do
+            {
+                isCorrect = char.TryParse(Console.ReadLine().Trim(), out answer) &&
+                         (answer == 'Y' || answer == 'n');
+                if (!isCorrect)
+                {
+                    Console.Write($"You entered incorrect {nameof(answer)}({answer}). Please, correct your input.");
+                }
+            }
+            while (!isCorrect);
+
+            return answer == 'Y';
+        }
+
+        private static void WriteCsv(string path)
+        {
+            try
+            {
+                var writer = new StreamWriter(File.Create(path));
+                fileCabinetService.MakeSnapshot().SaveToCsv(writer);
+                writer.Close();
+                Console.WriteLine($"All records are exported to file {path}.");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine($"Export failed: can't open file {path}.");
             }
         }
     }
