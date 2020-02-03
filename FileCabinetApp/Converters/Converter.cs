@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading;
 
 namespace FileCabinetApp
 {
@@ -27,8 +28,8 @@ namespace FileCabinetApp
         /// <returns>The <see cref="Tuple{T1, T2, T3}"/>.</returns>
         public static Tuple<bool, string, DateTime> DateConvertor(string data)
         {
-            bool flag = DateTime.TryParse(data?.Trim(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out DateTime dayBirth);
-            return new Tuple<bool, string, DateTime>(flag, dayBirth.ToString("yyyy-MMM-dd", CultureInfo.CreateSpecificCulture("en-US")), dayBirth);
+            bool flag = DateTime.TryParse(data?.Trim(), Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out DateTime dayBirth);
+            return new Tuple<bool, string, DateTime>(flag, dayBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture), dayBirth);
         }
 
         /// <summary>

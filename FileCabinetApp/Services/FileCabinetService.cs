@@ -5,7 +5,7 @@ using System.Linq;
 using FileCabinetApp.Interfaces;
 using FileCabinetApp.Validators;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
@@ -125,6 +125,15 @@ namespace FileCabinetApp
         public Type GetTypeValidator()
         {
             return this.validator.GetType();
+        }
+
+        /// <summary>
+        /// Returns the snapshot of current service.
+        /// </summary>
+        /// <returns>The snapshot of current service.</returns>
+        public FileCabinetServiceSnapshot MakeSnapshot()
+        {
+            return new FileCabinetServiceSnapshot(this.GetRecords());
         }
     }
 }

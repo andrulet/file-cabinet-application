@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.Interfaces
 {
@@ -24,7 +25,7 @@ namespace FileCabinetApp.Interfaces
         void EditRecord(ParametersForRecord parameters);
 
         /// <summary>
-        /// Gets array of records.
+        /// Gets list of records.
         /// </summary>
         /// <returns>List of <see cref="FileCabinetRecord"/> class.</returns>
         ReadOnlyCollection<FileCabinetRecord> GetRecords();
@@ -68,5 +69,11 @@ namespace FileCabinetApp.Interfaces
         /// </summary>
         /// <returns>Type of validator.</returns>
         public Type GetTypeValidator();
+
+        /// <summary>
+        /// Returns the snapshot of current service.
+        /// </summary>
+        /// <returns>The snapshot of current service.</returns>
+        public FileCabinetServiceSnapshot MakeSnapshot();
     }
 }
