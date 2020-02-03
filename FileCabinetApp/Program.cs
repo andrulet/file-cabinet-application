@@ -290,6 +290,11 @@ namespace FileCabinetApp
                 write = WriteCsv;
                 format = "^([^/]+)(.csv)$";
             }
+            else if (string.Equals(exportType, "xml", StringComparison.InvariantCultureIgnoreCase))
+            {
+                write = WriteXml;
+                format = "^([^/]+)(.xml)$";
+            }
             else
             {
                 Console.WriteLine($"You entered incorrect {nameof(exportType)}({exportType}). For example csv OR xml.");
@@ -463,6 +468,21 @@ namespace FileCabinetApp
             {
                 var writer = new StreamWriter(File.Create(path));
                 fileCabinetService.MakeSnapshot().SaveToCsv(writer);
+                writer.Close();
+                Console.WriteLine($"All records are exported to file {path}.");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine($"Export failed: can't open file {path}.");
+            }
+        }
+
+        private static void WriteXml(string path)
+        {
+            try
+            {
+                var writer = new StreamWriter(File.Create(path));
+                fileCabinetService.MakeSnapshot().SaveToXml(writer);
                 writer.Close();
                 Console.WriteLine($"All records are exported to file {path}.");
             }

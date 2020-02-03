@@ -1,12 +1,21 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace FileCabinetApp
 {
     /// <summary>
     /// This class contains data about the recording and operations with them, describing some information about person.
     /// </summary>
+    [XmlRootAttribute]
     public class FileCabinetRecord : ICloneable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetRecord"/> class.
+        /// </summary>
+        public FileCabinetRecord()
+        {
+        }
+
         /// <summary>
         /// Gets or sets id of an instance a <see cref="FileCabinetRecord"/> class.
         /// </summary>

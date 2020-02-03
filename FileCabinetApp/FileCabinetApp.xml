@@ -61,9 +61,31 @@
             </summary>
             <param name="record">The record.</param>
         </member>
+        <member name="T:FileCabinetApp.Export.FileCabinetRecordXmlWriter">
+            <summary>
+            Contains method of writing record in xml format.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Export.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Export.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="writer">The xml writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Export.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Writes the record in xml format.
+            </summary>
+            <param name="record">The record.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             This class contains data about the recording and operations with them, describing some information about person.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
             </summary>
         </member>
         <member name="P:FileCabinetApp.FileCabinetRecord.Id">
@@ -580,11 +602,17 @@
             <summary>
             Gets all records.
             </summary>
-            <value> Array of the records.</value>
+            <value> List of the records.</value>
         </member>
         <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
             <summary>
             Saves records to csv file.
+            </summary>
+            <param name="writer">The stream writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
+            <summary>
+            Saves records to xml file.
             </summary>
             <param name="writer">The stream writer.</param>
         </member>

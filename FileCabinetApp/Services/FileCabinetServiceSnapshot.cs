@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using FileCabinetApp.Export;
 
 namespace FileCabinetApp.Services
@@ -37,7 +38,7 @@ namespace FileCabinetApp.Services
         /// <summary>
         /// Gets all records.
         /// </summary>
-        /// <value> Array of the records.</value>
+        /// <value> List of the records.</value>
         public ReadOnlyCollection<FileCabinetRecord> Records { get => this.records.ToList().AsReadOnly(); }
 
         /// <summary>
@@ -58,6 +59,41 @@ namespace FileCabinetApp.Services
                 {
                     csvWriter.Write(record);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Saves records to xml file.
+        /// </summary>
+        /// <param name="writer">The stream writer.</param>
+        public void SaveToXml(StreamWriter writer)
+        {
+            if (writer == null)
+            {
+                throw new ArgumentNullException(nameof(writer));
+            }
+
+            var xmlSettings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = "\t",
+            };
+
+            using (var xmlWriter = XmlWriter.Create(writer, xmlSettings))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("records");
+                var fileCabinetRecordXmlWriter = new FileCabinetRecordXmlWriter(xmlWriter);
+                if (this.records != null)
+                {
+                    foreach (var record in this.records)
+                    {
+                        fileCabinetRecordXmlWriter.Write(record);
+                    }
+                }
+
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
             }
         }
     }
