@@ -11,7 +11,7 @@ namespace FileCabinetApp.Services
     /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
     /// and <see cref="Dictionary{TKey, Tvalue}"/>, where Tvalue is <see cref="FileCabinetRecord"/> instance.
     /// </summary>
-    public class FileCabinetService : IFileCabinetService
+    public class FileCabinetMemoryService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
@@ -20,10 +20,10 @@ namespace FileCabinetApp.Services
         private readonly IRecordValidator validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
-        /// <param name="validator">Reference on IRRecordValidator.</param>
-        public FileCabinetService(IRecordValidator validator)
+        /// <param name="validator">Reference on IRecordValidator.</param>
+        public FileCabinetMemoryService(IRecordValidator validator)
         {
             this.validator = validator;
         }
@@ -105,26 +105,6 @@ namespace FileCabinetApp.Services
         public ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth)
         {
             return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
-        }
-
-        /// <inheritdoc/>
-        public bool CheckId(int id)
-        {
-            var record = this.list.Find(rec => rec.Id == id);
-            if (record == null)
-            {
-                throw new ArgumentNullException($"Record with {nameof(id)} = {id} not found.");
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        /// <inheritdoc/>
-        public Type GetTypeValidator()
-        {
-            return this.validator.GetType();
         }
 
         /// <summary>

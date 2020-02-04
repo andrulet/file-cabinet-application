@@ -191,25 +191,6 @@
             <param name="dayOfBirth">The key for searching in the dictionary.</param>
             <returns>List of the records.</returns>
         </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.CheckId(System.Int32)">
-            <summary>
-            Checks id on list.
-            </summary>
-            <param name="id">Id to check.</param>
-            <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.GetTypeValidator">
-            <summary>
-            Gets type of validator.
-            </summary>
-            <returns>Type of validator.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Interfaces.IFileCabinetService.MakeSnapshot">
-            <summary>
-            Returns the snapshot of current service.
-            </summary>
-            <returns>The snapshot of current service.</returns>
-        </member>
         <member name="T:FileCabinetApp.Validators.IRecordValidator">
             <summary>
             This interface contains methods for validation.
@@ -542,46 +523,72 @@
             <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
             <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.Services.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
         </member>
-        <member name="T:FileCabinetApp.Services.FileCabinetService">
+        <member name="T:FileCabinetApp.Services.FileCabinetFilesystemService">
+            <summary>
+            Provides operations with records using file system.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.#ctor(System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="fileStream">The file stream.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.EditRecord(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByDate(System.DateTime)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByFirstName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByLastName(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetRecords">
+            <inheritdoc/>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetStat">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetMemoryService">
             <summary>
             This class describes the work and actions with records of instanses of <see cref="T:FileCabinetApp.FileCabinetRecord"/> that are stored in <see cref="T:System.Collections.Generic.List`1"/>
             and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetMemoryService"/> class.
             </summary>
-            <param name="validator">Reference on IRRecordValidator.</param>
+            <param name="validator">Reference on IRecordValidator.</param>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.CreateRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.EditRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.EditRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.GetRecords">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.GetRecords">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.GetStat">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.GetStat">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByFirstName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByLastName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.FindByDate(System.DateTime)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByDate(System.DateTime)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.CheckId(System.Int32)">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.GetTypeValidator">
-            <inheritdoc/>
-        </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetService.MakeSnapshot">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.MakeSnapshot">
             <summary>
             Returns the snapshot of current service.
             </summary>

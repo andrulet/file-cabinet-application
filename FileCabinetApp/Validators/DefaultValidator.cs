@@ -95,7 +95,7 @@ namespace FileCabinetApp.Validators
             var less = 0;
             var more = short.MaxValue;
             var isValid = points > less && points < more;
-            return new Tuple<bool, string>(isValid, $"The salary must be greter than {less} or less than {more}.");
+            return new Tuple<bool, string>(isValid, $"The points must be greter than {less} or less than {more}.");
         }
 
         /// <inheritdoc/>

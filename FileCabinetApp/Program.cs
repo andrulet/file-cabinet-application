@@ -156,7 +156,6 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            GetValidators();
             Console.Write(Resources.FirstName);
             var firstName = ReadInput(Converter.StringConvertor, firstNameValidator);
             Console.Write(Resources.LastName);
@@ -181,11 +180,10 @@ namespace FileCabinetApp
                 Console.WriteLine($"You entered incorrect {parameter}.");
             }
 
-            if (int.TryParse(parameter, out int id))
+            if (int.TryParse(parameter, out int id) && id > 0)
             {
-                if (fileCabinetService.GetRecords().Where(rec => rec.Id == id) != null)
+                if (fileCabinetService.GetRecords().FirstOrDefault(rec => rec.Id == id) != null)
                 {
-                    GetValidators();
                     Console.Write(Resources.FirstName);
                     var firstName = ReadInput(Converter.StringConvertor, firstNameValidator);
                     Console.Write(Resources.LastName);
@@ -209,7 +207,7 @@ namespace FileCabinetApp
             }
             else
             {
-                Console.WriteLine($"{nameof(parameter)}({parameter}) must be an integer.");
+                Console.WriteLine($"{nameof(parameter)}({parameter}) must be an integer equels or more 1.");
             }
         }
 
@@ -336,7 +334,8 @@ namespace FileCabinetApp
         {
             if (args.Length == 0)
             {
-                fileCabinetService = new FileCabinetService(new DefaultValidator());
+                fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                GetValidators(typeof(DefaultValidator));
                 Console.WriteLine(Resources.defaultValidation);
                 return;
             }
@@ -360,26 +359,30 @@ namespace FileCabinetApp
                 {
                     if (commands[1].Equals("CUSTOM", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        fileCabinetService = new FileCabinetService(new CustomValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
+                        GetValidators(typeof(CustomValidator));
                         Console.WriteLine(Resources.castomValidation);
                         return;
                     }
                     else if (commands[1].Equals("DEFAULT", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        fileCabinetService = new FileCabinetService(new DefaultValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                        GetValidators(typeof(DefaultValidator));
                         Console.WriteLine(Resources.defaultValidation);
                         return;
                     }
                     else
                     {
-                        fileCabinetService = new FileCabinetService(new DefaultValidator());
+                        fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+                        GetValidators(typeof(DefaultValidator));
                         Console.WriteLine(Resources.unknownValidation);
                         return;
                     }
                 }
             }
 
-            fileCabinetService = new FileCabinetService(new DefaultValidator());
+            fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+            GetValidators(typeof(DefaultValidator));
             Console.WriteLine(Resources.unknownValidation);
         }
 
@@ -420,9 +423,9 @@ namespace FileCabinetApp
             while (true);
         }
 
-        private static void GetValidators()
+        private static void GetValidators(Type typeOfValidator)
         {
-            if (fileCabinetService.GetTypeValidator() == typeof(DefaultValidator))
+            if (typeOfValidator == typeof(DefaultValidator))
             {
                 firstNameValidator = DefaultValidator.FirstNameValidator;
                 lastNameValidator = DefaultValidator.LastNameValidator;
@@ -432,7 +435,7 @@ namespace FileCabinetApp
                 pointsValidator = DefaultValidator.ShortValidator;
             }
 
-            if (fileCabinetService.GetTypeValidator() == typeof(CustomValidator))
+            if (typeOfValidator == typeof(CustomValidator))
             {
                 firstNameValidator = CustomValidator.FirstNameValidator;
                 lastNameValidator = CustomValidator.LastNameValidator;
@@ -466,10 +469,19 @@ namespace FileCabinetApp
         {
             try
             {
+                if (!(fileCabinetService is FileCabinetMemoryService memoryService))
+                {
+                    throw new InvalidOperationException($"You must use {typeof(FileCabinetMemoryService)}.");
+                }
+
                 var writer = new StreamWriter(File.Create(path));
-                fileCabinetService.MakeSnapshot().SaveToCsv(writer);
+                memoryService.MakeSnapshot().SaveToCsv(writer);
                 writer.Close();
                 Console.WriteLine($"All records are exported to file {path}.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             catch (DirectoryNotFoundException)
             {
@@ -481,10 +493,19 @@ namespace FileCabinetApp
         {
             try
             {
+                if (!(fileCabinetService is FileCabinetMemoryService memoryService))
+                {
+                    throw new InvalidOperationException($"You must use {typeof(FileCabinetMemoryService)}.");
+                }
+
                 var writer = new StreamWriter(File.Create(path));
-                fileCabinetService.MakeSnapshot().SaveToXml(writer);
+                memoryService.MakeSnapshot().SaveToXml(writer);
                 writer.Close();
                 Console.WriteLine($"All records are exported to file {path}.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             catch (DirectoryNotFoundException)
             {
