@@ -191,128 +191,16 @@
             <param name="dayOfBirth">The key for searching in the dictionary.</param>
             <returns>List of the records.</returns>
         </member>
-        <member name="T:FileCabinetApp.Validators.IRecordValidator">
+        <member name="T:FileCabinetApp.Interfaces.IRecordValidator">
             <summary>
             This interface contains methods for validation.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Validators.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Interfaces.IRecordValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
             <summary>
             Validates all parameteres for creating or editing the record.
             </summary>
             <param name="parameters">Parameters for creating the instance of <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.</param>
-        </member>
-        <member name="T:FileCabinetApp.Validators.CustomValidator">
-            <summary>
-            This class contains custom data validation methods.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.FirstNameValidator(System.String)">
-            <summary>
-            Validates <see cref="T:System.String"/> the first name parameter of record.
-            </summary>
-            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.LastNameValidator(System.String)">
-            <summary>
-            Validates <see cref="T:System.String"/> the last name parameter of record.
-            </summary>
-            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.DateTimeValidator(System.DateTime)">
-            <summary>
-            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
-            </summary>
-            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.CharValidator(System.Char)">
-            <summary>
-            Validates <see cref="T:System.Char"/> the gender parameter of record.
-            </summary>
-            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.DecimalValidator(System.Decimal)">
-            <summary>
-            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
-            </summary>
-            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.ShortValidator(System.Int16)">
-            <summary>
-            Validates <see cref="T:System.Int16"/> the points parameter of record.
-            </summary>
-            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
-            <inheritdoc/>
-        </member>
-        <member name="T:FileCabinetApp.Validators.DefaultValidator">
-            <summary>
-            This class contains default data validation methods.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.FirstNameValidator(System.String)">
-            <summary>
-            Validates <see cref="T:System.String"/> the first name parameter of record.
-            </summary>
-            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.LastNameValidator(System.String)">
-            <summary>
-            Validates <see cref="T:System.String"/> the last name parameter of record.
-            </summary>
-            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.DateTimeValidator(System.DateTime)">
-            <summary>
-            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
-            </summary>
-            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.CharValidator(System.Char)">
-            <summary>
-            Validates <see cref="T:System.Char"/> the gender parameter of record.
-            </summary>
-            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.DecimalValidator(System.Decimal)">
-            <summary>
-            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
-            </summary>
-            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.ShortValidator(System.Int16)">
-            <summary>
-            Validates <see cref="T:System.Int16"/> the points parameter of record.
-            </summary>
-            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
-            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
-            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
-            <inheritdoc/>
         </member>
         <member name="T:FileCabinetApp.ParametersForRecord">
             <summary>
@@ -489,6 +377,16 @@
               Ищет локализованную строку, похожую на Unknown start command.Using default validation rules..
             </summary>
         </member>
+        <member name="P:FileCabinetApp.Resource.Resources.UsedFileService">
+            <summary>
+              Ищет локализованную строку, похожую на Using file system as the storage..
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.Resource.Resources.UsedMemoryService">
+            <summary>
+              Ищет локализованную строку, похожую на Using memory as the storage..
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.Services.DictionaryService`1">
             <summary>
             Describes working with <see cref="T:System.Collections.Generic.Dictionary`2"/>.
@@ -523,36 +421,37 @@
             <param name="newFileRecordKey">Key of <paramref name="newFileRecord"/>.</param>
             <param name="keyEdit">The key in the <see cref="T:FileCabinetApp.Services.DictionaryService`1"/>, where the <see cref="T:FileCabinetApp.FileCabinetRecord"/> will be change.</param>
         </member>
-        <member name="T:FileCabinetApp.Services.FileCabinetFilesystemService">
+        <member name="T:FileCabinetApp.Services.FileCabinetFileSystemService">
             <summary>
             Provides operations with records using file system.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.#ctor(System.IO.FileStream)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.#ctor(System.IO.FileStream,FileCabinetApp.Interfaces.IRecordValidator)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetFilesystemService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetFileSystemService"/> class.
             </summary>
             <param name="fileStream">The file stream.</param>
+            <param name="validator">Reference on IRecordValidator.</param>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.CreateRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.EditRecord(FileCabinetApp.ParametersForRecord)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.EditRecord(FileCabinetApp.ParametersForRecord)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByDate(System.DateTime)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.FindByDate(System.DateTime)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.FindByFirstName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.FindByLastName(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetRecords">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.GetRecords">
             <inheritdoc/>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetStat">
+        <member name="M:FileCabinetApp.Services.FileCabinetFileSystemService.GetStat">
             <inheritdoc/>
         </member>
         <member name="T:FileCabinetApp.Services.FileCabinetMemoryService">
@@ -561,7 +460,7 @@
             and <see cref="T:System.Collections.Generic.Dictionary`2"/>, where Tvalue is <see cref="T:FileCabinetApp.FileCabinetRecord"/> instance.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.#ctor(FileCabinetApp.Validators.IRecordValidator)">
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.#ctor(FileCabinetApp.Interfaces.IRecordValidator)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetMemoryService"/> class.
             </summary>
@@ -622,6 +521,130 @@
             Saves records to xml file.
             </summary>
             <param name="writer">The stream writer.</param>
+        </member>
+        <member name="T:FileCabinetApp.Validators.CustomValidator">
+            <summary>
+            This class contains custom data validation methods.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.FirstNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the first name parameter of record.
+            </summary>
+            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.LastNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the last name parameter of record.
+            </summary>
+            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.DateTimeValidator(System.DateTime)">
+            <summary>
+            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
+            </summary>
+            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.CharValidator(System.Char)">
+            <summary>
+            Validates <see cref="T:System.Char"/> the gender parameter of record.
+            </summary>
+            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.DecimalValidator(System.Decimal)">
+            <summary>
+            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
+            </summary>
+            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ShortValidator(System.Int16)">
+            <summary>
+            Validates <see cref="T:System.Int16"/> the points parameter of record.
+            </summary>
+            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.CustomValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.DefaultValidator">
+            <summary>
+            This class contains default data validation methods.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.FirstNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the first name parameter of record.
+            </summary>
+            <param name="firstName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.LastNameValidator(System.String)">
+            <summary>
+            Validates <see cref="T:System.String"/> the last name parameter of record.
+            </summary>
+            <param name="lastName"><see cref="T:System.String"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.DateTimeValidator(System.DateTime)">
+            <summary>
+            Validates <see cref="T:System.DateTime"/> the date of birth parameter of record.
+            </summary>
+            <param name="dateOfBirth"><see cref="T:System.DateTime"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.CharValidator(System.Char)">
+            <summary>
+            Validates <see cref="T:System.Char"/> the gender parameter of record.
+            </summary>
+            <param name="gender"><see cref="T:System.Char"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.DecimalValidator(System.Decimal)">
+            <summary>
+            Validates <see cref="T:System.Decimal"/> the salary parameter of record.
+            </summary>
+            <param name="salary"><see cref="T:System.Decimal"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ShortValidator(System.Int16)">
+            <summary>
+            Validates <see cref="T:System.Int16"/> the points parameter of record.
+            </summary>
+            <param name="points"><see cref="T:System.Int16"/> for validation.</param>
+            <returns><see cref="T:System.Tuple`2"/>, where T1 is <see cref="T:System.Boolean"/>, true if the conditions are met,
+            false if doesn't. T2 is <see cref="T:System.String"/> message.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Validators.DefaultValidator.ValidateParameters(FileCabinetApp.ParametersForRecord)">
+            <inheritdoc/>
+        </member>
+        <member name="T:FileCabinetApp.Validators.StartCommandValidator">
+            <summary>
+            This class validates start commands of application.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Validators.StartCommandValidator.ArgsValidator(System.String[])">
+            <summary>
+            Validates start command.
+            </summary>
+            <param name="args">Array of commands.</param>
+            <returns>Dictionary of validating command.</returns>
         </member>
     </members>
 </doc>

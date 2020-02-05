@@ -8,17 +8,20 @@ namespace FileCabinetApp.Services
     /// <summary>
     /// Provides operations with records using file system.
     /// </summary>
-    public class FileCabinetFilesystemService : IFileCabinetService
+    public class FileCabinetFileSystemService : IFileCabinetService
     {
         private readonly FileStream fileStream;
+        private readonly IRecordValidator validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
         /// </summary>
         /// <param name="fileStream">The file stream.</param>
-        public FileCabinetFilesystemService(FileStream fileStream)
+        /// <param name="validator">Reference on IRecordValidator.</param>
+        public FileCabinetFileSystemService(FileStream fileStream, IRecordValidator validator)
         {
             this.fileStream = fileStream ?? throw new ArgumentNullException(nameof(fileStream));
+            this.validator = validator;
         }
 
         /// <inheritdoc/>

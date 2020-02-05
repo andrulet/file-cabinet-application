@@ -1,11 +1,12 @@
 ﻿using System;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
     /// <summary>
     /// This class contains default data validation methods.
     /// </summary>
-    public class DefaultValidator : IRecordValidator
+    internal class DefaultValidator : IRecordValidator
     {
         /// <summary>
         /// Validates <see cref="string"/> the first name parameter of record.

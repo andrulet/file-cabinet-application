@@ -162,4 +162,10 @@
   <data name="unknownValidation" xml:space="preserve">
     <value>Unknown start command.Using default validation rules.</value>
   </data>
+  <data name="UsedFileService" xml:space="preserve">
+    <value>Using file system as the storage.</value>
+  </data>
+  <data name="UsedMemoryService" xml:space="preserve">
+    <value>Using memory as the storage.</value>
+  </data>
 </root>

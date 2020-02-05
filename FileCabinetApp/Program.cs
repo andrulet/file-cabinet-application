@@ -22,6 +22,7 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
+        private const string Path = "cabinet-records.db";
 
         private static readonly Tuple<string, Action<string>>[] Commands = new Tuple<string, Action<string>>[]
         {
@@ -47,8 +48,22 @@ namespace FileCabinetApp
             new string[] { "export", "export records to csv file", "The 'export' export records to csv file." },
         };
 
+        private static readonly string[][] AppStartCommand = new string[][]
+        {
+            new string[] { "VALIDATION-RULES", "V", "DEFAULT" },
+            new string[] { "STORAGE", "S", "MEMORY" },
+        };
+
+        private static readonly Action<string>[] ArgsMethods = new Action<string>[]
+        {
+            SetValidationRules,
+            SetStorage,
+        };
+
         private static bool isRunning = true;
         private static IFileCabinetService fileCabinetService;
+        private static IRecordValidator validator;
+        private static FileStream fileStream;
         private static Func<string, Tuple<bool, string>> firstNameValidator;
         private static Func<string, Tuple<bool, string>> lastNameValidator;
         private static Func<DateTime, Tuple<bool, string>> dateOfBirthValidator;
@@ -62,51 +77,65 @@ namespace FileCabinetApp
         /// <param name="args">Array of a console string.</param>
         public static void Main(string[] args)
         {
-            try
+            Console.OutputEncoding = Encoding.UTF8;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+            if (args == null)
             {
-                if (args == null)
+                throw new ArgumentNullException(nameof(args));
+            }
+
+            const int FullKeyCommand = 0;
+            const int ShortKeyCommand = 1;
+            const int ValueCommand = 2;
+            Dictionary<string, string> validCommand = StartCommandValidator.ArgsValidator(args);
+            foreach (var command in validCommand)
+            {
+                for (int i = 0; i < AppStartCommand.Length; i++)
                 {
-                    throw new ArgumentNullException(nameof(args));
-                }
-
-                ValidArgs(args);
-                Console.OutputEncoding = Encoding.UTF8;
-                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-                Console.WriteLine($"{Resources.DevelopedBy}{Resources.DeveloperName}");
-                Console.WriteLine(Resources.HintMessage);
-                Console.WriteLine();
-
-                do
-                {
-                    Console.Write(Resources.GreaterThan);
-                    var inputs = Console.ReadLine().Split(' ', 2);
-                    const int commandIndex = 0;
-                    var command = inputs[commandIndex];
-
-                    if (string.IsNullOrEmpty(command))
+                    if (command.Key.Equals(AppStartCommand[i][FullKeyCommand], StringComparison.InvariantCultureIgnoreCase) ||
+                        command.Key.Equals(AppStartCommand[i][ShortKeyCommand], StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Console.WriteLine(Resources.HintMessage);
-                        continue;
-                    }
-
-                    var index = Array.FindIndex(Commands, 0, Commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
-                    if (index >= 0)
-                    {
-                        const int parametersIndex = 1;
-                        var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-                        Commands[index].Item2(parameters);
-                    }
-                    else
-                    {
-                        PrintMissedCommandInfo(command);
+                        AppStartCommand[i][ValueCommand] = command.Value;
                     }
                 }
-                while (isRunning);
             }
-            catch (ArgumentNullException ex)
+
+            for (int i = 0; i < ArgsMethods.Length; i++)
             {
-                Console.WriteLine(ex.Message);
+                ArgsMethods[i].Invoke(AppStartCommand[i][ValueCommand]);
             }
+
+            Console.WriteLine($"{Resources.DevelopedBy} {Resources.DeveloperName}");
+            Console.WriteLine(Resources.HintMessage);
+            Console.WriteLine();
+            GetValidators();
+
+            do
+            {
+                Console.Write(Resources.GreaterThan);
+                var inputs = Console.ReadLine().Split(' ', 2);
+                const int commandIndex = 0;
+                var command = inputs[commandIndex];
+
+                if (string.IsNullOrEmpty(command))
+                {
+                    Console.WriteLine(Resources.HintMessage);
+                    continue;
+                }
+
+                var index = Array.FindIndex(Commands, 0, Commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
+                if (index >= 0)
+                {
+                    const int parametersIndex = 1;
+                    var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
+                    Commands[index].Item2(parameters);
+                }
+                else
+                {
+                    PrintMissedCommandInfo(command);
+                }
+            }
+            while (isRunning);
         }
 
         private static void PrintMissedCommandInfo(string command)
@@ -330,60 +359,46 @@ namespace FileCabinetApp
             }
         }
 
-        private static void ValidArgs(string[] args)
+        private static void SetValidationRules(string parameter)
         {
-            if (args.Length == 0)
+            switch (parameter)
             {
-                fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
-                GetValidators(typeof(DefaultValidator));
-                Console.WriteLine(Resources.defaultValidation);
-                return;
+                case "DEFAULT":
+                    validator = new DefaultValidator();
+                    fileCabinetService = new FileCabinetMemoryService(validator);
+                    Console.WriteLine(Resources.defaultValidation);
+                    break;
+                case "CUSTOM":
+                    validator = new CustomValidator();
+                    fileCabinetService = new FileCabinetMemoryService(validator);
+                    Console.WriteLine(Resources.castomValidation);
+                    break;
+                default:
+                    validator = new DefaultValidator();
+                    fileCabinetService = new FileCabinetMemoryService(validator);
+                    Console.WriteLine(Resources.unknownValidation);
+                    break;
             }
+        }
 
-            string[] commands = new string[args.Length + 1];
-            if (args[0].StartsWith("--", StringComparison.InvariantCultureIgnoreCase) && args.Length == 1)
+        private static void SetStorage(string parameter)
+        {
+            switch (parameter)
             {
-                commands = args[0].Substring(2).ToUpperInvariant().Split('=', 2);
+                case "MEMORY":
+                    fileCabinetService = new FileCabinetMemoryService(validator);
+                    Console.WriteLine(Resources.UsedMemoryService);
+                    break;
+                case "FILE":
+                    fileStream = new FileStream(Path, FileMode.OpenOrCreate);
+                    fileCabinetService = new FileCabinetFileSystemService(fileStream, validator);
+                    Console.WriteLine(Resources.UsedFileService);
+                    break;
+                default:
+                    fileCabinetService = new FileCabinetMemoryService(validator);
+                    Console.WriteLine(Resources.UsedMemoryService);
+                    break;
             }
-            else if (args[0].StartsWith("-", StringComparison.InvariantCultureIgnoreCase) && args.Length == 2)
-            {
-                commands = new string[args.Length];
-                commands[0] = args[0].Substring(1).ToUpperInvariant();
-                commands[1] = args[1].ToUpperInvariant();
-            }
-
-            if (commands[^1] != null)
-            {
-                if (commands[0].Equals("VALIDATION-RULES", StringComparison.InvariantCultureIgnoreCase) ||
-                commands[0].Equals("V", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    if (commands[1].Equals("CUSTOM", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
-                        GetValidators(typeof(CustomValidator));
-                        Console.WriteLine(Resources.castomValidation);
-                        return;
-                    }
-                    else if (commands[1].Equals("DEFAULT", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
-                        GetValidators(typeof(DefaultValidator));
-                        Console.WriteLine(Resources.defaultValidation);
-                        return;
-                    }
-                    else
-                    {
-                        fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
-                        GetValidators(typeof(DefaultValidator));
-                        Console.WriteLine(Resources.unknownValidation);
-                        return;
-                    }
-                }
-            }
-
-            fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
-            GetValidators(typeof(DefaultValidator));
-            Console.WriteLine(Resources.unknownValidation);
         }
 
         private static void CheckCollectionOnEmpty(ReadOnlyCollection<FileCabinetRecord> collection)
@@ -423,9 +438,9 @@ namespace FileCabinetApp
             while (true);
         }
 
-        private static void GetValidators(Type typeOfValidator)
+        private static void GetValidators()
         {
-            if (typeOfValidator == typeof(DefaultValidator))
+            if (validator.GetType() == typeof(DefaultValidator))
             {
                 firstNameValidator = DefaultValidator.FirstNameValidator;
                 lastNameValidator = DefaultValidator.LastNameValidator;
@@ -435,7 +450,7 @@ namespace FileCabinetApp
                 pointsValidator = DefaultValidator.ShortValidator;
             }
 
-            if (typeOfValidator == typeof(CustomValidator))
+            if (validator.GetType() == typeof(CustomValidator))
             {
                 firstNameValidator = CustomValidator.FirstNameValidator;
                 lastNameValidator = CustomValidator.LastNameValidator;

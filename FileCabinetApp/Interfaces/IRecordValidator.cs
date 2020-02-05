@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FileCabinetApp.Validators
+namespace FileCabinetApp.Interfaces
 {
     /// <summary>
     /// This interface contains methods for validation.
