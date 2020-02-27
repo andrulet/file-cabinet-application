@@ -44,6 +44,23 @@
             <param name="data">Input the points of person.</param>
             <returns>The <see cref="T:System.Tuple`3"/>.</returns>
         </member>
+        <member name="T:FileCabinetApp.Converters.FileWriter">
+            <summary>
+            This class works with Filestraam and operations with records.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Converters.FileWriter.#ctor(System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Converters.FileWriter"/> class.
+            </summary>
+            <param name="fileStream">The file stream.</param>
+        </member>
+        <member name="M:FileCabinetApp.Converters.FileWriter.WriteNewRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Writes record in file.
+            </summary>
+            <param name="record">The record for writting in file.</param>
+        </member>
         <member name="T:FileCabinetApp.Export.FileCabinetRecordCsvWriter">
             <summary>
             Contains method of writing record in csv format.

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using FileCabinetApp.Converters;
 using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Services
@@ -10,8 +12,9 @@ namespace FileCabinetApp.Services
     /// </summary>
     public class FileCabinetFileSystemService : IFileCabinetService
     {
-        private readonly FileStream fileStream;
         private readonly IRecordValidator validator;
+        private readonly FileWriter fileWriter;
+        private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
@@ -20,14 +23,33 @@ namespace FileCabinetApp.Services
         /// <param name="validator">Reference on IRecordValidator.</param>
         public FileCabinetFileSystemService(FileStream fileStream, IRecordValidator validator)
         {
-            this.fileStream = fileStream ?? throw new ArgumentNullException(nameof(fileStream));
-            this.validator = validator;
+            this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            this.fileWriter = new FileWriter(fileStream);
         }
 
         /// <inheritdoc/>
         public int CreateRecord(ParametersForRecord parameters)
         {
-            throw new NotImplementedException();
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            this.validator.ValidateParameters(parameters);
+            var record = new FileCabinetRecord
+            {
+                Id = this.list.Count + 1,
+                FirstName = parameters.FirstName,
+                LastName = parameters.LastName,
+                DateOfBirth = parameters.DateOfBirth,
+                Gender = parameters.Gender,
+                Salary = parameters.Salary,
+                Points = parameters.Points,
+            };
+
+            this.list.Add(record);
+            this.fileWriter.WriteNewRecord(record);
+            return this.list.Count;
         }
 
         /// <inheritdoc/>
