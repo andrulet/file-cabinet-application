@@ -344,10 +344,17 @@ namespace FileCabinetApp
 
         private static void List(string parameters)
         {
-            var list = Program.fileCabinetService.GetRecords();
-            foreach (var x in list)
+            try
             {
-                Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}, {x.Gender}, {x.Salary}, {x.Points}");
+                var list = Program.fileCabinetService.GetRecords();
+                foreach (var x in list)
+                {
+                    Console.WriteLine($"#{x.Id}, {x.FirstName}, {x.LastName}, {x.DateOfBirth.ToString("yyyy-MMM-dd", Thread.CurrentThread.CurrentCulture)}, {x.Gender}, {x.Salary}, {x.Points}");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 

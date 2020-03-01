@@ -44,22 +44,34 @@
             <param name="data">Input the points of person.</param>
             <returns>The <see cref="T:System.Tuple`3"/>.</returns>
         </member>
-        <member name="T:FileCabinetApp.Converters.FileWriter">
+        <member name="T:FileCabinetApp.Converters.FileWorker">
             <summary>
             This class works with Filestraam and operations with records.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.Converters.FileWriter.#ctor(System.IO.FileStream)">
+        <member name="M:FileCabinetApp.Converters.FileWorker.#ctor(System.IO.FileStream)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.Converters.FileWriter"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Converters.FileWorker"/> class.
             </summary>
             <param name="fileStream">The file stream.</param>
         </member>
-        <member name="M:FileCabinetApp.Converters.FileWriter.WriteNewRecord(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Converters.FileWorker.WriteNewRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Writes record in file.
             </summary>
             <param name="record">The record for writting in file.</param>
+        </member>
+        <member name="M:FileCabinetApp.Converters.FileWorker.GetRecords">
+            <summary>
+            Gets records from the file.
+            </summary>
+            <returns>Collection of records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Converters.FileWorker.GetCountOfRecordsInFile">
+            <summary>
+            Gets the count of records.
+            </summary>
+            <returns>The count of records.</returns>
         </member>
         <member name="T:FileCabinetApp.Export.FileCabinetRecordCsvWriter">
             <summary>

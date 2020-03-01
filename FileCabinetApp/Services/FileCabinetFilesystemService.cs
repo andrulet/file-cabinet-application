@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using FileCabinetApp.Converters;
 using FileCabinetApp.Interfaces;
 
@@ -13,7 +14,7 @@ namespace FileCabinetApp.Services
     public class FileCabinetFileSystemService : IFileCabinetService
     {
         private readonly IRecordValidator validator;
-        private readonly FileWriter fileWriter;
+        private readonly FileWorker fileWorker;
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
 
         /// <summary>
@@ -24,7 +25,11 @@ namespace FileCabinetApp.Services
         public FileCabinetFileSystemService(FileStream fileStream, IRecordValidator validator)
         {
             this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
-            this.fileWriter = new FileWriter(fileStream);
+            this.fileWorker = new FileWorker(fileStream);
+            var countOfRecords = this.fileWorker.GetCountOfRecordsInFile();
+            var arrayofRecords = new FileCabinetRecord[countOfRecords];
+            this.fileWorker.GetRecords().CopyTo(arrayofRecords, 0);
+            this.list = arrayofRecords.ToList();
         }
 
         /// <inheritdoc/>
@@ -48,7 +53,7 @@ namespace FileCabinetApp.Services
             };
 
             this.list.Add(record);
-            this.fileWriter.WriteNewRecord(record);
+            this.fileWorker.WriteNewRecord(record);
             return this.list.Count;
         }
 
@@ -79,7 +84,12 @@ namespace FileCabinetApp.Services
         /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            throw new NotImplementedException();
+            if (this.fileWorker.GetCountOfRecordsInFile() == 0)
+            {
+                throw new ArgumentNullException($"The count of records in the storage equels 0");
+            }
+
+            return this.fileWorker.GetRecords();
         }
 
         /// <inheritdoc/>
