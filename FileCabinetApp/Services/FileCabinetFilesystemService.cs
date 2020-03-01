@@ -95,7 +95,7 @@ namespace FileCabinetApp.Services
         /// <inheritdoc/>
         public int GetStat()
         {
-            throw new NotImplementedException();
+            return this.list.Count;
         }
     }
 }
