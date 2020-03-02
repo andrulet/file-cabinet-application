@@ -73,6 +73,12 @@
             </summary>
             <returns>The count of records.</returns>
         </member>
+        <member name="M:FileCabinetApp.Converters.FileWorker.EditRecordInFile(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Changes record in the file.
+            </summary>
+            <param name="record">The record for changing.</param>
+        </member>
         <member name="T:FileCabinetApp.Export.FileCabinetRecordCsvWriter">
             <summary>
             Contains method of writing record in csv format.

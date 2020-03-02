@@ -60,7 +60,20 @@ namespace FileCabinetApp.Services
         /// <inheritdoc/>
         public void EditRecord(ParametersForRecord parameters)
         {
-            throw new NotImplementedException();
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            this.validator.ValidateParameters(parameters);
+            var record = this.list.ElementAt(parameters.Id - 1);
+            record.FirstName = parameters.FirstName;
+            record.LastName = parameters.LastName;
+            record.DateOfBirth = parameters.DateOfBirth;
+            record.Gender = parameters.Gender;
+            record.Salary = parameters.Salary;
+            record.Points = parameters.Points;
+            this.fileWorker.EditRecordInFile(record);
         }
 
         /// <inheritdoc/>

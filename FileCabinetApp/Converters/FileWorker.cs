@@ -50,17 +50,8 @@ namespace FileCabinetApp.Converters
         /// <param name="record">The record for writting in file.</param>
         public void WriteNewRecord(FileCabinetRecord record)
         {
-            byte[] recordByte = new byte[RecordSize];
-            Array.Copy(ShortToBytes(Status), 0, recordByte, StatusOffSet, LengthArrayOfStatus);
-            Array.Copy(IntToBytes(record.Id), 0, recordByte, IdOffSet, LengthArrayOfId);
-            Array.Copy(StringToBytes(record.FirstName), 0, recordByte, FirstNameOffSet, LengthArrayOfName);
-            Array.Copy(StringToBytes(record.LastName), 0, recordByte, LastNameOffSet, LengthArrayOfName);
-            Array.Copy(IntToBytes(record.DateOfBirth.Year), 0, recordByte, YearOffSet, LengthArrayOfYear);
-            Array.Copy(IntToBytes(record.DateOfBirth.Month), 0, recordByte, MonthOffSet, LengthArrayOfMonth);
-            Array.Copy(IntToBytes(record.DateOfBirth.Day), 0, recordByte, DayOffSet, LengthArrayOfDay);
-            Array.Copy(CharToBytes(record.Gender), 0, recordByte, GenderOffSet, LengthArrayOfGender);
-            Array.Copy(DecimalToBytes(record.Salary), 0, recordByte, SalaryOffSet, LengthArrayOfSalary);
-            Array.Copy(ShortToBytes(record.Points), 0, recordByte, PointOffSet, LengthArrayOfPoint);
+            this.GetCountOfRecordsInFile();
+            byte[] recordByte = ConvertToByteArray(record);
             this.fileStream.Seek(0, SeekOrigin.End);
             this.fileStream.Write(recordByte, 0, recordByte.Length);
             this.fileStream.Flush();
@@ -105,6 +96,18 @@ namespace FileCabinetApp.Converters
         {
             countOfRecords = (int)this.fileStream.Length / RecordSize;
             return countOfRecords;
+        }
+
+        /// <summary>
+        /// Changes record in the file.
+        /// </summary>
+        /// <param name="record">The record for changing.</param>
+        public void EditRecordInFile(FileCabinetRecord record)
+        {
+            byte[] recordByte = ConvertToByteArray(record);
+            this.fileStream.Seek((record.Id - 1) * RecordSize, SeekOrigin.Begin);
+            this.fileStream.Write(recordByte, 0, recordByte.Length);
+            this.fileStream.Flush();
         }
 
         private static byte[] ShortToBytes(short value)
@@ -169,6 +172,22 @@ namespace FileCabinetApp.Converters
         {
             var name = Encoding.UTF8.GetString(array, startIndex, LengthArrayOfName);
             return name.Remove(name.IndexOf(Convert.ToChar(0), StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private static byte[] ConvertToByteArray(FileCabinetRecord record)
+        {
+            byte[] recordByte = new byte[RecordSize];
+            Array.Copy(ShortToBytes(Status), 0, recordByte, StatusOffSet, LengthArrayOfStatus);
+            Array.Copy(IntToBytes(record.Id), 0, recordByte, IdOffSet, LengthArrayOfId);
+            Array.Copy(StringToBytes(record.FirstName), 0, recordByte, FirstNameOffSet, LengthArrayOfName);
+            Array.Copy(StringToBytes(record.LastName), 0, recordByte, LastNameOffSet, LengthArrayOfName);
+            Array.Copy(IntToBytes(record.DateOfBirth.Year), 0, recordByte, YearOffSet, LengthArrayOfYear);
+            Array.Copy(IntToBytes(record.DateOfBirth.Month), 0, recordByte, MonthOffSet, LengthArrayOfMonth);
+            Array.Copy(IntToBytes(record.DateOfBirth.Day), 0, recordByte, DayOffSet, LengthArrayOfDay);
+            Array.Copy(CharToBytes(record.Gender), 0, recordByte, GenderOffSet, LengthArrayOfGender);
+            Array.Copy(DecimalToBytes(record.Salary), 0, recordByte, SalaryOffSet, LengthArrayOfSalary);
+            Array.Copy(ShortToBytes(record.Points), 0, recordByte, PointOffSet, LengthArrayOfPoint);
+            return recordByte;
         }
     }
 }
