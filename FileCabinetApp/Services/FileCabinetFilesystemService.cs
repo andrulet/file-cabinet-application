@@ -16,6 +16,9 @@ namespace FileCabinetApp.Services
         private readonly IRecordValidator validator;
         private readonly FileWorker fileWorker;
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
+        private readonly DictionaryService<string> dictionaryByLastNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
+        private readonly DictionaryService<DateTime> dictionaryByDateOfBirthKey = new DictionaryService<DateTime>(new Dictionary<DateTime, List<FileCabinetRecord>>());
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
@@ -30,6 +33,7 @@ namespace FileCabinetApp.Services
             var arrayofRecords = new FileCabinetRecord[countOfRecords];
             this.fileWorker.GetRecords().CopyTo(arrayofRecords, 0);
             this.list = arrayofRecords.ToList();
+            this.AddRecordsToDictionary();
         }
 
         /// <inheritdoc/>
@@ -54,6 +58,9 @@ namespace FileCabinetApp.Services
 
             this.list.Add(record);
             this.fileWorker.WriteNewRecord(record);
+            this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
+            this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
+            this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
             return this.list.Count;
         }
 
@@ -67,6 +74,7 @@ namespace FileCabinetApp.Services
 
             this.validator.ValidateParameters(parameters);
             var record = this.list.ElementAt(parameters.Id - 1);
+            var newRecord = (FileCabinetRecord)record.Clone();
             record.FirstName = parameters.FirstName;
             record.LastName = parameters.LastName;
             record.DateOfBirth = parameters.DateOfBirth;
@@ -74,24 +82,27 @@ namespace FileCabinetApp.Services
             record.Salary = parameters.Salary;
             record.Points = parameters.Points;
             this.fileWorker.EditRecordInFile(record);
-        }
-
-        /// <inheritdoc/>
-        public ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth)
-        {
-            throw new NotImplementedException();
+            this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
+            this.dictionaryByLastNameKey.EditRecord(record, record.LastName, newRecord.LastName);
+            this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
         }
 
         /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            throw new NotImplementedException();
+            return this.dictionaryByFirstNameKey.FindByParam(firstName);
         }
 
         /// <inheritdoc/>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            throw new NotImplementedException();
+            return this.dictionaryByLastNameKey.FindByParam(lastName);
+        }
+
+        /// <inheritdoc/>
+        public ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth)
+        {
+            return this.dictionaryByDateOfBirthKey.FindByParam(dayOfBirth);
         }
 
         /// <inheritdoc/>
@@ -109,6 +120,16 @@ namespace FileCabinetApp.Services
         public int GetStat()
         {
             return this.list.Count;
+        }
+
+        private void AddRecordsToDictionary()
+        {
+            foreach (var record in this.list)
+            {
+                this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
+                this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
+                this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
+            }
         }
     }
 }
