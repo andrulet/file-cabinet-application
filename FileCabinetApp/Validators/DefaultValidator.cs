@@ -1,11 +1,12 @@
 ﻿using System;
+using FileCabinetApp.Interfaces;
 
 namespace FileCabinetApp.Validators
 {
     /// <summary>
     /// This class contains default data validation methods.
     /// </summary>
-    public class DefaultValidator : IRecordValidator
+    internal class DefaultValidator : IRecordValidator
     {
         /// <summary>
         /// Validates <see cref="string"/> the first name parameter of record.
@@ -95,7 +96,7 @@ namespace FileCabinetApp.Validators
             var less = 0;
             var more = short.MaxValue;
             var isValid = points > less && points < more;
-            return new Tuple<bool, string>(isValid, $"The salary must be greter than {less} or less than {more}.");
+            return new Tuple<bool, string>(isValid, $"The points must be greter than {less} or less than {more}.");
         }
 
         /// <inheritdoc/>

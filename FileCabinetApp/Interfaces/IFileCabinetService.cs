@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FileCabinetApp.Services;
 
 namespace FileCabinetApp.Interfaces
 {
@@ -56,24 +55,5 @@ namespace FileCabinetApp.Interfaces
         /// <param name="dayOfBirth">The key for searching in the dictionary.</param>
         /// <returns>List of the records.</returns>
         ReadOnlyCollection<FileCabinetRecord> FindByDate(DateTime dayOfBirth);
-
-        /// <summary>
-        /// Checks id on list.
-        /// </summary>
-        /// <param name="id">Id to check.</param>
-        /// <returns>True - if list contains an record with <paramref name="id"/>, false if not.</returns>
-        bool CheckId(int id);
-
-        /// <summary>
-        /// Gets type of validator.
-        /// </summary>
-        /// <returns>Type of validator.</returns>
-        public Type GetTypeValidator();
-
-        /// <summary>
-        /// Returns the snapshot of current service.
-        /// </summary>
-        /// <returns>The snapshot of current service.</returns>
-        public FileCabinetServiceSnapshot MakeSnapshot();
     }
 }

@@ -194,5 +194,23 @@ namespace FileCabinetApp.Resource {
                 return ResourceManager.GetString("unknownValidation", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Using file system as the storage..
+        /// </summary>
+        public static string UsedFileService {
+            get {
+                return ResourceManager.GetString("UsedFileService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Using memory as the storage..
+        /// </summary>
+        public static string UsedMemoryService {
+            get {
+                return ResourceManager.GetString("UsedMemoryService", resourceCulture);
+            }
+        }
     }
 }

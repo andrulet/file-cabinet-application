@@ -1,31 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using FileCabinetApp.Converters;
 using FileCabinetApp.Interfaces;
-using FileCabinetApp.Validators;
 
 namespace FileCabinetApp.Services
 {
     /// <summary>
-    /// This class describes the work and actions with records of instanses of <see cref="FileCabinetRecord"/> that are stored in <see cref="List{FileCabinetRecord}"/>
-    /// and <see cref="Dictionary{TKey, Tvalue}"/>, where Tvalue is <see cref="FileCabinetRecord"/> instance.
+    /// Provides operations with records using file system.
     /// </summary>
-    public class FileCabinetService : IFileCabinetService
+    public class FileCabinetFileSystemService : IFileCabinetService
     {
+        private readonly IRecordValidator validator;
+        private readonly FileWorker fileWorker;
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly DictionaryService<string> dictionaryByFirstNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
         private readonly DictionaryService<string> dictionaryByLastNameKey = new DictionaryService<string>(new Dictionary<string, List<FileCabinetRecord>>());
         private readonly DictionaryService<DateTime> dictionaryByDateOfBirthKey = new DictionaryService<DateTime>(new Dictionary<DateTime, List<FileCabinetRecord>>());
-        private readonly IRecordValidator validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetFileSystemService"/> class.
         /// </summary>
-        /// <param name="validator">Reference on IRRecordValidator.</param>
-        public FileCabinetService(IRecordValidator validator)
+        /// <param name="fileStream">The file stream.</param>
+        /// <param name="validator">Reference on IRecordValidator.</param>
+        public FileCabinetFileSystemService(FileStream fileStream, IRecordValidator validator)
         {
-            this.validator = validator;
+            this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            this.fileWorker = new FileWorker(fileStream);
+            var countOfRecords = this.fileWorker.GetCountOfRecordsInFile();
+            var arrayofRecords = new FileCabinetRecord[countOfRecords];
+            this.fileWorker.GetRecords().CopyTo(arrayofRecords, 0);
+            this.list = arrayofRecords.ToList();
+            this.AddRecordsToDictionary();
         }
 
         /// <inheritdoc/>
@@ -49,10 +57,11 @@ namespace FileCabinetApp.Services
             };
 
             this.list.Add(record);
+            this.fileWorker.WriteNewRecord(record);
             this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
             this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
             this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
-            return record.Id;
+            return this.list.Count;
         }
 
         /// <inheritdoc/>
@@ -72,21 +81,10 @@ namespace FileCabinetApp.Services
             record.Gender = parameters.Gender;
             record.Salary = parameters.Salary;
             record.Points = parameters.Points;
+            this.fileWorker.EditRecordInFile(record);
             this.dictionaryByFirstNameKey.EditRecord(record, record.FirstName, newRecord.FirstName);
             this.dictionaryByLastNameKey.EditRecord(record, record.LastName, newRecord.LastName);
             this.dictionaryByDateOfBirthKey.EditRecord(record, record.DateOfBirth, newRecord.DateOfBirth);
-        }
-
-        /// <inheritdoc/>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
-        {
-            return new ReadOnlyCollection<FileCabinetRecord>(this.list);
-        }
-
-        /// <inheritdoc/>
-        public int GetStat()
-        {
-            return this.list.Count;
         }
 
         /// <inheritdoc/>
@@ -108,32 +106,30 @@ namespace FileCabinetApp.Services
         }
 
         /// <inheritdoc/>
-        public bool CheckId(int id)
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            var record = this.list.Find(rec => rec.Id == id);
-            if (record == null)
+            if (this.fileWorker.GetCountOfRecordsInFile() == 0)
             {
-                throw new ArgumentNullException($"Record with {nameof(id)} = {id} not found.");
+                throw new ArgumentNullException($"The count of records in the storage equels 0");
             }
-            else
-            {
-                return true;
-            }
+
+            return this.fileWorker.GetRecords();
         }
 
         /// <inheritdoc/>
-        public Type GetTypeValidator()
+        public int GetStat()
         {
-            return this.validator.GetType();
+            return this.list.Count;
         }
 
-        /// <summary>
-        /// Returns the snapshot of current service.
-        /// </summary>
-        /// <returns>The snapshot of current service.</returns>
-        public FileCabinetServiceSnapshot MakeSnapshot()
+        private void AddRecordsToDictionary()
         {
-            return new FileCabinetServiceSnapshot(this.GetRecords());
+            foreach (var record in this.list)
+            {
+                this.dictionaryByFirstNameKey.AddRecord(record, record.FirstName);
+                this.dictionaryByLastNameKey.AddRecord(record, record.LastName);
+                this.dictionaryByDateOfBirthKey.AddRecord(record, record.DateOfBirth);
+            }
         }
     }
 }
